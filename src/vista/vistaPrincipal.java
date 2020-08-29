@@ -1,13 +1,17 @@
 package vista;
 
 import com.sun.awt.AWTUtilities;
+import foto.foto;
 import java.awt.CardLayout;
 import java.awt.Color;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import registro.registrarThabitación;
 import registro.registrarUsuario;
 
 /**
@@ -23,6 +27,8 @@ public class vistaPrincipal extends javax.swing.JFrame {
         initComponents();
         AWTUtilities.setWindowOpaque(this, false);
         this.setLocationRelativeTo(null);
+
+        this.txtRuta.setEditable(false);
     }
 
     /*int*/
@@ -32,7 +38,9 @@ public class vistaPrincipal extends javax.swing.JFrame {
     /*booleanos*/
     private boolean fullScreen = false;
 
-    GTusuario GTu = new GTusuario();
+    FileInputStream foto;
+
+    GTusuario GTu;
     registrarUsuario ru = new registrarUsuario();
 
     public boolean isFullScreen() {
@@ -43,7 +51,7 @@ public class vistaPrincipal extends javax.swing.JFrame {
         this.fullScreen = fullScreen;
     }
 
-    private void tomarDatos() {
+    private void tomarDatosCliente() {
         GTu.setNombre(this.txtNombreCliente.getText());
         GTu.setNtelefono(this.txtNúmeroCliente.getText());
         GTu.setCorreoE(this.txtCorreoCliente.getText());
@@ -52,7 +60,14 @@ public class vistaPrincipal extends javax.swing.JFrame {
         GTu.setBaños(this.jcBaños.getSelectedItem().toString());
         GTu.setHextras(this.jcHe.getSelectedItem().toString());
     }
-
+    
+    private void tomarDatosHabitaciones() {
+        GTu.setCamas(this.jcCamas1.getSelectedItem().toString());
+        GTu.setTcama(this.jcTc1.getSelectedItem().toString());
+        GTu.setBaños(this.jcBaños1.getSelectedItem().toString());
+        GTu.setHextras(this.jcHe1.getSelectedItem().toString());
+        GTu.setHnombre(this.txtTipoHabitacion.getText());
+    }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -61,6 +76,7 @@ public class vistaPrincipal extends javax.swing.JFrame {
         buttons = new javax.swing.JPanel();
         btnInit = new javax.swing.JLabel();
         btnRegisterUser = new javax.swing.JLabel();
+        btnRegistrarHabitación = new javax.swing.JLabel();
         btnHabitación = new javax.swing.JLabel();
         cabezera = new javax.swing.JPanel();
         jTextField1 = new javax.swing.JTextField();
@@ -108,7 +124,17 @@ public class vistaPrincipal extends javax.swing.JFrame {
         jLabel12 = new javax.swing.JLabel();
         jLabel13 = new javax.swing.JLabel();
         jLabel14 = new javax.swing.JLabel();
+        jLabel15 = new javax.swing.JLabel();
+        jSeparator8 = new javax.swing.JSeparator();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        txtDescripción = new javax.swing.JTextArea();
+        jSeparator9 = new javax.swing.JSeparator();
+        btnRegister = new javax.swing.JLabel();
+        btnFoto = new javax.swing.JLabel();
+        txtRuta = new javax.swing.JTextField();
         lblRegistrarHabitación = new javax.swing.JLabel();
+        j4 = new javax.swing.JPanel();
+        jPanel3 = new javax.swing.JPanel();
         barraTitulo = new javax.swing.JPanel();
         btnMaximize = new javax.swing.JLabel();
         btnMinimize = new javax.swing.JLabel();
@@ -151,9 +177,25 @@ public class vistaPrincipal extends javax.swing.JFrame {
             }
         });
 
+        btnRegistrarHabitación.setBackground(new java.awt.Color(136, 0, 33));
+        btnRegistrarHabitación.setIcon(new javax.swing.ImageIcon("C:\\Users\\manuel.vargas\\Documents\\PracticaHotel\\img\\habitación.png")); // NOI18N
+        btnRegistrarHabitación.setText("REGISTRAR HABITACIÓN");
+        btnRegistrarHabitación.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnRegistrarHabitación.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnRegistrarHabitaciónMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnRegistrarHabitaciónMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnRegistrarHabitaciónMouseExited(evt);
+            }
+        });
+
         btnHabitación.setBackground(new java.awt.Color(136, 0, 33));
-        btnHabitación.setIcon(new javax.swing.ImageIcon("C:\\Users\\manuel.vargas\\Documents\\PracticaHotel\\img\\habitación.png")); // NOI18N
-        btnHabitación.setText("HABITACIÓN");
+        btnHabitación.setIcon(new javax.swing.ImageIcon("C:\\Users\\manuel.vargas\\Documents\\PracticaHotel\\img\\habitaiones.png")); // NOI18N
+        btnHabitación.setText("HABITACIONES");
         btnHabitación.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnHabitación.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -173,7 +215,8 @@ public class vistaPrincipal extends javax.swing.JFrame {
             buttonsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(btnInit, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(btnRegisterUser, javax.swing.GroupLayout.DEFAULT_SIZE, 267, Short.MAX_VALUE)
-            .addComponent(btnHabitación, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(btnRegistrarHabitación, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(btnHabitación, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         buttonsLayout.setVerticalGroup(
             buttonsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -181,6 +224,8 @@ public class vistaPrincipal extends javax.swing.JFrame {
                 .addComponent(btnInit, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
                 .addComponent(btnRegisterUser, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, 0)
+                .addComponent(btnRegistrarHabitación, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
                 .addComponent(btnHabitación, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -261,10 +306,13 @@ public class vistaPrincipal extends javax.swing.JFrame {
         j1Layout.setHorizontalGroup(
             j1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(j1Layout.createSequentialGroup()
-                .addGap(224, 224, 224)
                 .addGroup(j1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(tituloEncabezado, javax.swing.GroupLayout.PREFERRED_SIZE, 331, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(Menu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(j1Layout.createSequentialGroup()
+                        .addGap(224, 224, 224)
+                        .addComponent(tituloEncabezado, javax.swing.GroupLayout.PREFERRED_SIZE, 331, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(j1Layout.createSequentialGroup()
+                        .addGap(20, 20, 20)
+                        .addComponent(Menu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(308, Short.MAX_VALUE))
         );
         j1Layout.setVerticalGroup(
@@ -274,7 +322,7 @@ public class vistaPrincipal extends javax.swing.JFrame {
                 .addComponent(tituloEncabezado, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(Menu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(234, Short.MAX_VALUE))
+                .addContainerGap(230, Short.MAX_VALUE))
         );
 
         mainPanel.add(j1, "panelOne");
@@ -490,7 +538,7 @@ public class vistaPrincipal extends javax.swing.JFrame {
             .addGroup(j2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(35, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         mainPanel.add(j2, "panelTwo");
@@ -532,27 +580,87 @@ public class vistaPrincipal extends javax.swing.JFrame {
         jLabel14.setForeground(new java.awt.Color(0, 0, 0));
         jLabel14.setText("Tipo de cama principal:");
 
+        jLabel15.setFont(new java.awt.Font("DialogInput", 1, 18)); // NOI18N
+        jLabel15.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel15.setText("DESCRIPCIÓN");
+
+        txtDescripción.setColumns(20);
+        txtDescripción.setRows(5);
+        jScrollPane1.setViewportView(txtDescripción);
+
+        btnRegister.setFont(new java.awt.Font("DialogInput", 1, 18)); // NOI18N
+        btnRegister.setForeground(new java.awt.Color(0, 0, 0));
+        btnRegister.setText("REGISTRAR HABITACIÓN");
+        btnRegister.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnRegister.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnRegisterMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnRegisterMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnRegisterMouseExited(evt);
+            }
+        });
+
+        btnFoto.setFont(new java.awt.Font("DialogInput", 1, 18)); // NOI18N
+        btnFoto.setForeground(new java.awt.Color(0, 0, 0));
+        btnFoto.setText("SELECCIONAR FOTO");
+        btnFoto.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        btnFoto.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnFoto.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnFotoMouseClicked(evt);
+            }
+        });
+
+        txtRuta.setBorder(null);
+
         javax.swing.GroupLayout registroHabitaciónLayout = new javax.swing.GroupLayout(registroHabitación);
         registroHabitación.setLayout(registroHabitaciónLayout);
         registroHabitaciónLayout.setHorizontalGroup(
             registroHabitaciónLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, registroHabitaciónLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnRegister)
+                .addGap(157, 157, 157))
             .addGroup(registroHabitaciónLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(registroHabitaciónLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel10)
-                    .addComponent(jLabel11)
-                    .addComponent(jLabel12)
-                    .addComponent(jLabel14)
-                    .addComponent(jLabel13))
-                .addGap(67, 67, 67)
-                .addGroup(registroHabitaciónLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jSeparator7)
-                    .addComponent(txtTipoHabitacion)
-                    .addComponent(jcTc1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jcHe1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jcBaños1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jcCamas1, 0, 211, Short.MAX_VALUE))
-                .addContainerGap())
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, registroHabitaciónLayout.createSequentialGroup()
+                        .addGroup(registroHabitaciónLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jSeparator8, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, registroHabitaciónLayout.createSequentialGroup()
+                                .addGroup(registroHabitaciónLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel10)
+                                    .addComponent(jLabel11)
+                                    .addComponent(jLabel12)
+                                    .addComponent(jLabel14)
+                                    .addComponent(jLabel13))
+                                .addGap(67, 67, 67)
+                                .addGroup(registroHabitaciónLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jSeparator7)
+                                    .addComponent(txtTipoHabitacion)
+                                    .addComponent(jcTc1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jcHe1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jcBaños1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jcCamas1, 0, 211, Short.MAX_VALUE)))
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING))
+                        .addContainerGap())
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, registroHabitaciónLayout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jLabel15)
+                        .addGap(207, 207, 207))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, registroHabitaciónLayout.createSequentialGroup()
+                        .addComponent(jSeparator9)
+                        .addContainerGap())
+                    .addGroup(registroHabitaciónLayout.createSequentialGroup()
+                        .addGap(17, 17, 17)
+                        .addComponent(btnFoto)
+                        .addGap(125, 125, 125)
+                        .addComponent(txtRuta)
+                        .addContainerGap())))
         );
         registroHabitaciónLayout.setVerticalGroup(
             registroHabitaciónLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -563,23 +671,37 @@ public class vistaPrincipal extends javax.swing.JFrame {
                     .addComponent(txtTipoHabitacion))
                 .addGap(0, 0, 0)
                 .addComponent(jSeparator7, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(58, 58, 58)
-                .addGroup(registroHabitaciónLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jcCamas1, javax.swing.GroupLayout.DEFAULT_SIZE, 36, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(registroHabitaciónLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(registroHabitaciónLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jcCamas1, javax.swing.GroupLayout.DEFAULT_SIZE, 41, Short.MAX_VALUE)
+                    .addComponent(jLabel11, javax.swing.GroupLayout.DEFAULT_SIZE, 41, Short.MAX_VALUE))
+                .addGap(5, 5, 5)
+                .addGroup(registroHabitaciónLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jcBaños1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel12, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jLabel12, javax.swing.GroupLayout.DEFAULT_SIZE, 41, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(registroHabitaciónLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel13, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jcHe1, javax.swing.GroupLayout.DEFAULT_SIZE, 38, Short.MAX_VALUE))
+                .addGroup(registroHabitaciónLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jcHe1, javax.swing.GroupLayout.DEFAULT_SIZE, 41, Short.MAX_VALUE)
+                    .addComponent(jLabel13, javax.swing.GroupLayout.DEFAULT_SIZE, 41, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(registroHabitaciónLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jcTc1, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(216, 216, 216))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(registroHabitaciónLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnFoto, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtRuta, javax.swing.GroupLayout.DEFAULT_SIZE, 42, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jSeparator8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, 0)
+                .addComponent(jSeparator9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnRegister, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         lblRegistrarHabitación.setFont(new java.awt.Font("Lucida Calligraphy", 1, 18)); // NOI18N
@@ -605,10 +727,41 @@ public class vistaPrincipal extends javax.swing.JFrame {
                 .addComponent(lblRegistrarHabitación, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
                 .addComponent(registroHabitación, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(114, Short.MAX_VALUE))
+                .addContainerGap(84, Short.MAX_VALUE))
         );
 
         mainPanel.add(j3, "panelThree");
+
+        jPanel3.setBackground(new java.awt.Color(255, 255, 255));
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 863, Short.MAX_VALUE)
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 689, Short.MAX_VALUE)
+        );
+
+        javax.swing.GroupLayout j4Layout = new javax.swing.GroupLayout(j4);
+        j4.setLayout(j4Layout);
+        j4Layout.setHorizontalGroup(
+            j4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, j4Layout.createSequentialGroup()
+                .addGap(0, 0, 0)
+                .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(0, 0, 0))
+        );
+        j4Layout.setVerticalGroup(
+            j4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(j4Layout.createSequentialGroup()
+                .addGap(0, 0, 0)
+                .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        mainPanel.add(j4, "panelFour");
 
         barraTitulo.setBackground(new java.awt.Color(190, 0, 47));
         barraTitulo.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -708,7 +861,7 @@ public class vistaPrincipal extends javax.swing.JFrame {
                 .addGap(0, 0, 0)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(buttons, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(mainPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addComponent(mainPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 689, Short.MAX_VALUE)))
         );
 
         pack();
@@ -735,31 +888,31 @@ public class vistaPrincipal extends javax.swing.JFrame {
         this.txtNombreCliente.requestFocus();
     }//GEN-LAST:event_btnRegisterUserMouseClicked
 
-    private void btnHabitaciónMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnHabitaciónMouseClicked
+    private void btnRegistrarHabitaciónMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnRegistrarHabitaciónMouseClicked
         CardLayout card = (CardLayout) mainPanel.getLayout();
         card.show(mainPanel, "panelThree");
         this.txtTipoHabitacion.requestFocus();
-    }//GEN-LAST:event_btnHabitaciónMouseClicked
+    }//GEN-LAST:event_btnRegistrarHabitaciónMouseClicked
 
     private void btnRegisterUserMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnRegisterUserMouseEntered
         btnRegisterUser.setOpaque(true);
         btnRegisterUser.setBorder(javax.swing.BorderFactory.createEtchedBorder());
     }//GEN-LAST:event_btnRegisterUserMouseEntered
 
-    private void btnHabitaciónMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnHabitaciónMouseEntered
-        btnHabitación.setOpaque(true);
-        btnHabitación.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-    }//GEN-LAST:event_btnHabitaciónMouseEntered
+    private void btnRegistrarHabitaciónMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnRegistrarHabitaciónMouseEntered
+        btnRegistrarHabitación.setOpaque(true);
+        btnRegistrarHabitación.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+    }//GEN-LAST:event_btnRegistrarHabitaciónMouseEntered
 
     private void btnRegisterUserMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnRegisterUserMouseExited
         btnRegisterUser.setOpaque(false);
         btnRegisterUser.setBorder(null);
     }//GEN-LAST:event_btnRegisterUserMouseExited
 
-    private void btnHabitaciónMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnHabitaciónMouseExited
-        btnHabitación.setOpaque(false);
-        btnHabitación.setBorder(null);
-    }//GEN-LAST:event_btnHabitaciónMouseExited
+    private void btnRegistrarHabitaciónMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnRegistrarHabitaciónMouseExited
+        btnRegistrarHabitación.setOpaque(false);
+        btnRegistrarHabitación.setBorder(null);
+    }//GEN-LAST:event_btnRegistrarHabitaciónMouseExited
 
     private void btnMinimizeMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnMinimizeMouseEntered
         btnMinimize.setOpaque(true);
@@ -817,9 +970,8 @@ public class vistaPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_btnRegistrarUsuarioMouseExited
 
     private void btnRegistrarUsuarioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnRegistrarUsuarioMouseClicked
-
-        tomarDatos();
-
+        GTu = new GTusuario();
+        tomarDatosCliente();
         if (GTu.getNombre().length() > 0 && GTu.getCorreoE().length() > 0 && GTu.getNtelefono().length() > 0
                 && !GTu.getCamas().equals("Camas") && !GTu.getTcama().equals("T.Cama") && !GTu.getBaños().equals("Baños")
                 && !GTu.getHextras().equals("H. Extras")) {
@@ -851,6 +1003,57 @@ public class vistaPrincipal extends javax.swing.JFrame {
     private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField1ActionPerformed
+
+    private void btnHabitaciónMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnHabitaciónMouseClicked
+        CardLayout card = (CardLayout) mainPanel.getLayout();
+        card.show(mainPanel, "panelFour");
+    }//GEN-LAST:event_btnHabitaciónMouseClicked
+
+    private void btnHabitaciónMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnHabitaciónMouseEntered
+       btnHabitación.setOpaque(true);
+       btnHabitación.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+    }//GEN-LAST:event_btnHabitaciónMouseEntered
+
+    private void btnHabitaciónMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnHabitaciónMouseExited
+        btnHabitación.setOpaque(false);
+        btnHabitación.setBorder(null);
+    }//GEN-LAST:event_btnHabitaciónMouseExited
+
+    private void btnRegisterMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnRegisterMouseEntered
+        btnRegister.setForeground(Color.red);
+    }//GEN-LAST:event_btnRegisterMouseEntered
+
+    private void btnRegisterMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnRegisterMouseExited
+        btnRegister.setForeground(Color.BLACK);
+    }//GEN-LAST:event_btnRegisterMouseExited
+
+    private void btnRegisterMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnRegisterMouseClicked
+        registrarThabitación rth = new registrarThabitación();
+        GTu = new GTusuario();
+        tomarDatosHabitaciones();
+        if (GTu.getHnombre().length() > 0 && !GTu.getCamas().equals("Camas") && !GTu.getTcama().equals("T.Cama") && !GTu.getBaños().equals("Baños")
+                && !GTu.getHextras().equals("H. Extras") && txtRuta.getText().length() > 0 && txtDescripción.getText().length() > 0) {
+            try {
+                rth.registrar(GTu.getHnombre(), GTu.getBaños(), GTu.getCamas(),
+                        GTu.getTcama(), GTu.getHextras(), txtDescripción.getText().toString(), foto);
+            } catch (SQLException ex) {
+                Logger.getLogger(vistaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } else {
+            JOptionPane.showMessageDialog(rootPane, "Por favor, no dejes campos vacíos", "ERROR DE OPERACIÓN", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_btnRegisterMouseClicked
+
+    private void btnFotoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnFotoMouseClicked
+        foto foto = new foto();
+        String ruta = foto.seleccionarFoto();
+        txtRuta.setText(ruta);
+        try {
+            this.foto = new FileInputStream(ruta);
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(vistaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_btnFotoMouseClicked
 
     /**
      * @param args the command line arguments
@@ -891,11 +1094,14 @@ public class vistaPrincipal extends javax.swing.JFrame {
     private javax.swing.JPanel Menu;
     private javax.swing.JPanel barraTitulo;
     private javax.swing.JLabel btnClose;
+    private javax.swing.JLabel btnFoto;
     private javax.swing.JLabel btnHabitación;
     private javax.swing.JLabel btnInit;
     private javax.swing.JLabel btnMaximize;
     private javax.swing.JLabel btnMinimize;
+    private javax.swing.JLabel btnRegister;
     private javax.swing.JLabel btnRegisterUser;
+    private javax.swing.JLabel btnRegistrarHabitación;
     private javax.swing.JLabel btnRegistrarUsuario;
     private javax.swing.JPanel buttons;
     private javax.swing.JPanel cabezera;
@@ -903,12 +1109,14 @@ public class vistaPrincipal extends javax.swing.JFrame {
     private javax.swing.JPanel j1;
     private javax.swing.JPanel j2;
     private javax.swing.JPanel j3;
+    private javax.swing.JPanel j4;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -919,6 +1127,8 @@ public class vistaPrincipal extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JSeparator jSeparator3;
@@ -926,6 +1136,8 @@ public class vistaPrincipal extends javax.swing.JFrame {
     private javax.swing.JSeparator jSeparator5;
     private javax.swing.JSeparator jSeparator6;
     private javax.swing.JSeparator jSeparator7;
+    private javax.swing.JSeparator jSeparator8;
+    private javax.swing.JSeparator jSeparator9;
     private javax.swing.JSpinner jSpinner1;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JComboBox<String> jcBaños;
@@ -941,8 +1153,10 @@ public class vistaPrincipal extends javax.swing.JFrame {
     private javax.swing.JPanel registroHabitación;
     private javax.swing.JLabel tituloEncabezado;
     private javax.swing.JTextField txtCorreoCliente;
+    private javax.swing.JTextArea txtDescripción;
     private javax.swing.JTextField txtNombreCliente;
     private javax.swing.JTextField txtNúmeroCliente;
+    private javax.swing.JTextField txtRuta;
     private javax.swing.JTextField txtTipoHabitacion;
     // End of variables declaration//GEN-END:variables
 

@@ -1,6 +1,6 @@
 package vista;
 
-public class GTusuario {
+public class GThabitaciones {
 
     /*String*/
     private String nombre;

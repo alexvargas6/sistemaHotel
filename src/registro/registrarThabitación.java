@@ -1,4 +1,4 @@
-package registro;
+ package registro;
 
 import conexión.conexión;
 import static conexión.conexión.connect;

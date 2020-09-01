@@ -1,5 +1,6 @@
 package vista;
 
+import Buscar.LlenarDatosCliente;
 import Buscar.buscarCliente;
 import Buscar.buscarHabitaciones;
 import com.sun.awt.AWTUtilities;
@@ -10,10 +11,14 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import registro.registrarIngresoDeCliente;
 import registro.registrarThabitación;
 import registro.registrarUsuario;
 import tabla.mostrarTabla;
@@ -31,8 +36,16 @@ public class vistaPrincipal extends javax.swing.JFrame {
         initComponents();
         AWTUtilities.setWindowOpaque(this, false);
         this.setLocationRelativeTo(null);
-
+        
         this.txtRuta.setEditable(false);
+        
+        this.setTitle("VISTA PRINCIPAL");
+        
+        try {
+            mt.MTabla(table);
+        } catch (SQLException | IOException ex) {
+            Logger.getLogger(vistaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /*int*/
@@ -41,22 +54,23 @@ public class vistaPrincipal extends javax.swing.JFrame {
 
     /*booleanos*/
     private boolean fullScreen = false;
-
+    
     FileInputStream foto;
 
     /*clases*/
     GThabitaciones GTu;
     registrarUsuario ru = new registrarUsuario();
     modalRhabitaciones dg = null;
-
+    mostrarTabla mt = new mostrarTabla();
+    
     public boolean isFullScreen() {
         return fullScreen;
     }
-
+    
     public void setFullScreen(boolean fullScreen) {
         this.fullScreen = fullScreen;
     }
-
+    
     private void tomarDatosCliente() {
         GTu.setNombre(this.txtNombreCliente.getText());
         GTu.setNtelefono(this.txtNúmeroCliente.getText());
@@ -74,6 +88,7 @@ public class vistaPrincipal extends javax.swing.JFrame {
         GTu.setHextras(this.jcHe1.getSelectedItem().toString());
         GTu.setHnombre(this.txtTipoHabitacion.getText());
     }
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -83,17 +98,16 @@ public class vistaPrincipal extends javax.swing.JFrame {
         btnInit = new javax.swing.JLabel();
         btnRegisterUser = new javax.swing.JLabel();
         btnRegistrarHabitación = new javax.swing.JLabel();
-        btnHabitación = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
+        btnAsignarHabitacion = new javax.swing.JLabel();
         cabezera = new javax.swing.JPanel();
         txtBuscar = new javax.swing.JTextField();
         btnBuscar = new javax.swing.JLabel();
         jSeparator6 = new javax.swing.JSeparator();
         mainPanel = new javax.swing.JPanel();
         j1 = new javax.swing.JPanel();
-        Menu = new javax.swing.JPanel();
-        icon = new javax.swing.JLabel();
-        tituloEncabezado = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        table = new javax.swing.JTable();
         j2 = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
         lblNombreCliente = new javax.swing.JLabel();
@@ -142,10 +156,6 @@ public class vistaPrincipal extends javax.swing.JFrame {
         lblRegistrarHabitación = new javax.swing.JLabel();
         btnRegistrarNuevaHabitacion = new javax.swing.JLabel();
         j4 = new javax.swing.JPanel();
-        jPanel3 = new javax.swing.JPanel();
-        jScrollPane3 = new javax.swing.JScrollPane();
-        table = new javax.swing.JTable();
-        jLabel1 = new javax.swing.JLabel();
         j5 = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
         panelForumario = new javax.swing.JPanel();
@@ -166,9 +176,9 @@ public class vistaPrincipal extends javax.swing.JFrame {
         jTextField4 = new javax.swing.JTextField();
         lblEstadoReserva = new javax.swing.JLabel();
         jComboBox2 = new javax.swing.JComboBox<>();
-        jDateChooser1 = new com.toedter.calendar.JDateChooser();
-        jDateChooser2 = new com.toedter.calendar.JDateChooser();
-        jDateChooser3 = new com.toedter.calendar.JDateChooser();
+        dateReserva = new com.toedter.calendar.JDateChooser();
+        dateIngreso = new com.toedter.calendar.JDateChooser();
+        dateSalida = new com.toedter.calendar.JDateChooser();
         lblRHextra = new javax.swing.JTextField();
         lblRcama = new javax.swing.JTextField();
         lblRbaños = new javax.swing.JTextField();
@@ -182,6 +192,7 @@ public class vistaPrincipal extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         telClienteFiltro = new javax.swing.JTextField();
         btnBuscarUsuario = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
         barraTitulo = new javax.swing.JPanel();
         btnMaximize = new javax.swing.JLabel();
         btnMinimize = new javax.swing.JLabel();
@@ -193,7 +204,7 @@ public class vistaPrincipal extends javax.swing.JFrame {
         buttons.setBackground(new java.awt.Color(204, 0, 50));
 
         btnInit.setBackground(new java.awt.Color(136, 0, 33));
-        btnInit.setIcon(new javax.swing.ImageIcon("C:\\Users\\manuel.vargas\\Documents\\PracticaHotel\\img\\inicio.png")); // NOI18N
+        btnInit.setIcon(new javax.swing.ImageIcon("img\\inicio.png"));
         btnInit.setText("INICIO");
         btnInit.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnInit.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -209,7 +220,7 @@ public class vistaPrincipal extends javax.swing.JFrame {
         });
 
         btnRegisterUser.setBackground(new java.awt.Color(136, 0, 33));
-        btnRegisterUser.setIcon(new javax.swing.ImageIcon("C:\\Users\\manuel.vargas\\Documents\\PracticaHotel\\img\\user.png")); // NOI18N
+        btnRegisterUser.setIcon(new javax.swing.ImageIcon("img\\user.png"));
         btnRegisterUser.setText("REGISTRAR USUARIOS");
         btnRegisterUser.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnRegisterUser.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -225,7 +236,7 @@ public class vistaPrincipal extends javax.swing.JFrame {
         });
 
         btnRegistrarHabitación.setBackground(new java.awt.Color(136, 0, 33));
-        btnRegistrarHabitación.setIcon(new javax.swing.ImageIcon("C:\\Users\\manuel.vargas\\Documents\\PracticaHotel\\img\\habitación.png")); // NOI18N
+        btnRegistrarHabitación.setIcon(new javax.swing.ImageIcon("img\\habitación.png"));
         btnRegistrarHabitación.setText("REGISTRAR HABITACIÓN");
         btnRegistrarHabitación.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnRegistrarHabitación.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -240,26 +251,19 @@ public class vistaPrincipal extends javax.swing.JFrame {
             }
         });
 
-        btnHabitación.setBackground(new java.awt.Color(136, 0, 33));
-        btnHabitación.setIcon(new javax.swing.ImageIcon("C:\\Users\\manuel.vargas\\Documents\\PracticaHotel\\img\\habitaiones.png")); // NOI18N
-        btnHabitación.setText("HABITACIONES");
-        btnHabitación.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        btnHabitación.addMouseListener(new java.awt.event.MouseAdapter() {
+        btnAsignarHabitacion.setBackground(new java.awt.Color(136, 0, 33));
+        btnAsignarHabitacion.setIcon(new javax.swing.ImageIcon("img\\playa.png"));
+        btnAsignarHabitacion.setText("ASIGNAR HABITACIÓN");
+        btnAsignarHabitacion.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnAsignarHabitacion.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btnHabitaciónMouseClicked(evt);
+                btnAsignarHabitacionMouseClicked(evt);
             }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                btnHabitaciónMouseEntered(evt);
+                btnAsignarHabitacionMouseEntered(evt);
             }
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                btnHabitaciónMouseExited(evt);
-            }
-        });
-
-        jLabel2.setText("ASIGNAR HABITACIÓN");
-        jLabel2.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel2MouseClicked(evt);
+                btnAsignarHabitacionMouseExited(evt);
             }
         });
 
@@ -270,8 +274,7 @@ public class vistaPrincipal extends javax.swing.JFrame {
             .addComponent(btnInit, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(btnRegisterUser, javax.swing.GroupLayout.DEFAULT_SIZE, 267, Short.MAX_VALUE)
             .addComponent(btnRegistrarHabitación, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(btnHabitación, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(btnAsignarHabitacion, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         buttonsLayout.setVerticalGroup(
             buttonsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -282,9 +285,7 @@ public class vistaPrincipal extends javax.swing.JFrame {
                 .addGap(0, 0, 0)
                 .addComponent(btnRegistrarHabitación, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
-                .addComponent(btnHabitación, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, 0)
-                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnAsignarHabitacion, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -299,7 +300,7 @@ public class vistaPrincipal extends javax.swing.JFrame {
             }
         });
 
-        btnBuscar.setIcon(new javax.swing.ImageIcon("C:\\Users\\manuel.vargas\\Documents\\PracticaHotel\\img\\search.png")); // NOI18N
+        btnBuscar.setIcon(new javax.swing.ImageIcon("img\\search.png"));
 
         javax.swing.GroupLayout cabezeraLayout = new javax.swing.GroupLayout(cabezera);
         cabezera.setLayout(cabezeraLayout);
@@ -331,52 +332,46 @@ public class vistaPrincipal extends javax.swing.JFrame {
 
         j1.setBackground(new java.awt.Color(255, 255, 255));
 
-        Menu.setBackground(new java.awt.Color(255, 255, 255));
-        Menu.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        jLabel6.setFont(new java.awt.Font("Lucida Calligraphy", 1, 18)); // NOI18N
+        jLabel6.setForeground(new java.awt.Color(200, 0, 49));
+        jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel6.setText("HABITACIONES");
 
-        icon.setIcon(new javax.swing.ImageIcon("C:\\Users\\manuel.vargas\\Documents\\PracticaHotel\\img\\hotel.png")); // NOI18N
+        jScrollPane4.setBackground(new java.awt.Color(255, 255, 255));
 
-        javax.swing.GroupLayout MenuLayout = new javax.swing.GroupLayout(Menu);
-        Menu.setLayout(MenuLayout);
-        MenuLayout.setHorizontalGroup(
-            MenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, MenuLayout.createSequentialGroup()
-                .addContainerGap(40, Short.MAX_VALUE)
-                .addComponent(icon)
-                .addGap(31, 31, 31))
-        );
-        MenuLayout.setVerticalGroup(
-            MenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(MenuLayout.createSequentialGroup()
-                .addGap(36, 36, 36)
-                .addComponent(icon)
-                .addContainerGap(38, Short.MAX_VALUE))
-        );
+        table.setBackground(new java.awt.Color(255, 255, 255));
+        table.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
 
-        tituloEncabezado.setFont(new java.awt.Font("Lucida Calligraphy", 1, 18)); // NOI18N
-        tituloEncabezado.setForeground(new java.awt.Color(200, 0, 49));
-        tituloEncabezado.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        tituloEncabezado.setText("BIENVENIDO");
+            },
+            new String [] {
+
+            }
+        ));
+        table.setSelectionForeground(new java.awt.Color(255, 255, 255));
+        jScrollPane4.setViewportView(table);
 
         javax.swing.GroupLayout j1Layout = new javax.swing.GroupLayout(j1);
         j1.setLayout(j1Layout);
         j1Layout.setHorizontalGroup(
             j1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(j1Layout.createSequentialGroup()
-                .addGap(224, 224, 224)
-                .addGroup(j1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(tituloEncabezado, javax.swing.GroupLayout.PREFERRED_SIZE, 331, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(Menu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(308, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, j1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane4)
+                .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, j1Layout.createSequentialGroup()
+                .addContainerGap(299, Short.MAX_VALUE)
+                .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 331, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(278, 278, 278))
         );
         j1Layout.setVerticalGroup(
             j1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(j1Layout.createSequentialGroup()
-                .addGap(69, 69, 69)
-                .addComponent(tituloEncabezado, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap()
+                .addComponent(jLabel6)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(Menu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(230, Short.MAX_VALUE))
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 607, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         mainPanel.add(j1, "panelOne");
@@ -773,9 +768,16 @@ public class vistaPrincipal extends javax.swing.JFrame {
         btnRegistrarNuevaHabitacion.setForeground(new java.awt.Color(0, 0, 0));
         btnRegistrarNuevaHabitacion.setText("REGISTRAR NUEVA HABITACIÓN");
         btnRegistrarNuevaHabitacion.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        btnRegistrarNuevaHabitacion.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnRegistrarNuevaHabitacion.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 btnRegistrarNuevaHabitacionMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnRegistrarNuevaHabitacionMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnRegistrarNuevaHabitacionMouseExited(evt);
             }
         });
 
@@ -794,72 +796,26 @@ public class vistaPrincipal extends javax.swing.JFrame {
         j3Layout.setVerticalGroup(
             j3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(j3Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(btnRegistrarNuevaHabitacion, javax.swing.GroupLayout.DEFAULT_SIZE, 35, Short.MAX_VALUE)
+                .addGap(19, 19, 19)
+                .addComponent(btnRegistrarNuevaHabitacion, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lblRegistrarHabitación, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
                 .addComponent(registroHabitación, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(78, Short.MAX_VALUE))
+                .addContainerGap(41, Short.MAX_VALUE))
         );
 
         mainPanel.add(j3, "panelThree");
-
-        jPanel3.setBackground(new java.awt.Color(255, 255, 255));
-
-        jScrollPane3.setBackground(new java.awt.Color(255, 255, 255));
-
-        table.setBackground(new java.awt.Color(255, 255, 255));
-        table.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-
-            }
-        ));
-        jScrollPane3.setViewportView(table);
-
-        jLabel1.setFont(new java.awt.Font("Lucida Calligraphy", 1, 18)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(200, 0, 49));
-        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("HABITACIONES");
-
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(23, 23, 23)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 819, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 797, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 619, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(16, 16, 16))
-        );
 
         javax.swing.GroupLayout j4Layout = new javax.swing.GroupLayout(j4);
         j4.setLayout(j4Layout);
         j4Layout.setHorizontalGroup(
             j4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, j4Layout.createSequentialGroup()
-                .addGap(0, 0, 0)
-                .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(0, 0, 0))
+            .addGap(0, 908, Short.MAX_VALUE)
         );
         j4Layout.setVerticalGroup(
             j4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(j4Layout.createSequentialGroup()
-                .addGap(0, 0, 0)
-                .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGap(0, 672, Short.MAX_VALUE)
         );
 
         mainPanel.add(j4, "panelFour");
@@ -874,6 +830,11 @@ public class vistaPrincipal extends javax.swing.JFrame {
         lblhabitacion.setText("HABITACIÓN:");
 
         HabitacionesBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "SELECCIONAR HABITACIÓN" }));
+        HabitacionesBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                HabitacionesBoxActionPerformed(evt);
+            }
+        });
 
         lblThabitacion.setFont(new java.awt.Font("Dubai", 1, 14)); // NOI18N
         lblThabitacion.setText("TIPO DE HABITACIÓN:");
@@ -975,7 +936,7 @@ public class vistaPrincipal extends javax.swing.JFrame {
                             .addGroup(panelForumarioLayout.createSequentialGroup()
                                 .addComponent(lblFreserva, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, 227, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(dateReserva, javax.swing.GroupLayout.PREFERRED_SIZE, 227, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(panelForumarioLayout.createSequentialGroup()
                                 .addGroup(panelForumarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addComponent(lblCosto, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -984,8 +945,8 @@ public class vistaPrincipal extends javax.swing.JFrame {
                                     .addComponent(lblEstadoReserva, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                 .addGap(165, 165, 165)
                                 .addGroup(panelForumarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(jDateChooser3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jDateChooser2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(dateSalida, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(dateIngreso, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(jTextField4, javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addComponent(jComboBox2, javax.swing.GroupLayout.Alignment.TRAILING, 0, 227, Short.MAX_VALUE))))))
                 .addContainerGap())
@@ -1023,16 +984,16 @@ public class vistaPrincipal extends javax.swing.JFrame {
                 .addComponent(jSeparator10, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(panelForumarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jDateChooser1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(dateReserva, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(lblFreserva, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(18, 18, 18)
                 .addGroup(panelForumarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jDateChooser2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(dateIngreso, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(lblFingreso, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(18, 18, 18)
                 .addGroup(panelForumarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jDateChooser3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblFsalida, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE))
+                    .addComponent(dateSalida, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblFsalida, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(panelForumarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(panelForumarioLayout.createSequentialGroup()
@@ -1058,7 +1019,7 @@ public class vistaPrincipal extends javax.swing.JFrame {
         jLabel5.setFont(new java.awt.Font("Gadugi", 1, 14)); // NOI18N
         jLabel5.setText("TEL:");
 
-        btnBuscarUsuario.setIcon(new javax.swing.ImageIcon("C:\\Users\\manuel.vargas\\Documents\\PracticaHotel\\img\\search.png")); // NOI18N
+        btnBuscarUsuario.setIcon(new javax.swing.ImageIcon("img\\search.png"));
         btnBuscarUsuario.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 btnBuscarUsuarioMouseClicked(evt);
@@ -1105,24 +1066,39 @@ public class vistaPrincipal extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
+        jButton1.setText("jButton1");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
-                .addContainerGap(147, Short.MAX_VALUE)
+                .addContainerGap(175, Short.MAX_VALUE)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(panelForumario, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(panelBaner, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(173, 173, 173))
+                .addGap(54, 54, 54)
+                .addComponent(jButton1)
+                .addGap(42, 42, 42))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addComponent(panelBaner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
-                .addComponent(panelForumario, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addComponent(panelForumario, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addContainerGap())
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addGap(121, 121, 121)
+                        .addComponent(jButton1)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
 
         javax.swing.GroupLayout j5Layout = new javax.swing.GroupLayout(j5);
@@ -1156,7 +1132,7 @@ public class vistaPrincipal extends javax.swing.JFrame {
         });
 
         btnMaximize.setBackground(new java.awt.Color(126, 0, 31));
-        btnMaximize.setIcon(new javax.swing.ImageIcon("C:\\Users\\manuel.vargas\\Documents\\PracticaHotel\\img\\maximize.png")); // NOI18N
+        btnMaximize.setIcon(new javax.swing.ImageIcon("img\\maximize.png"));
         btnMaximize.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 btnMaximizeMouseClicked(evt);
@@ -1170,7 +1146,7 @@ public class vistaPrincipal extends javax.swing.JFrame {
         });
 
         btnMinimize.setBackground(new java.awt.Color(126, 0, 31));
-        btnMinimize.setIcon(new javax.swing.ImageIcon("C:\\Users\\manuel.vargas\\Documents\\PracticaHotel\\img\\minimize.png")); // NOI18N
+        btnMinimize.setIcon(new javax.swing.ImageIcon("img\\minimize.png"));
         btnMinimize.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 btnMinimizeMouseClicked(evt);
@@ -1184,7 +1160,7 @@ public class vistaPrincipal extends javax.swing.JFrame {
         });
 
         btnClose.setBackground(new java.awt.Color(126, 0, 31));
-        btnClose.setIcon(new javax.swing.ImageIcon("C:\\Users\\manuel.vargas\\Documents\\PracticaHotel\\img\\close.png")); // NOI18N
+        btnClose.setIcon(new javax.swing.ImageIcon("img\\close.png"));
         btnClose.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 btnCloseMouseClicked(evt);
@@ -1240,8 +1216,8 @@ public class vistaPrincipal extends javax.swing.JFrame {
                 .addComponent(cabezera, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(buttons, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(mainPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addComponent(mainPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 672, Short.MAX_VALUE)
+                    .addComponent(buttons, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
 
         pack();
@@ -1260,6 +1236,11 @@ public class vistaPrincipal extends javax.swing.JFrame {
     private void btnInitMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnInitMouseClicked
         CardLayout card = (CardLayout) mainPanel.getLayout();
         card.show(mainPanel, "panelOne");
+        try {
+            mt.MTabla(table);
+        } catch (SQLException | IOException ex) {
+            Logger.getLogger(vistaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_btnInitMouseClicked
 
     private void btnRegisterUserMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnRegisterUserMouseClicked
@@ -1384,27 +1365,6 @@ public class vistaPrincipal extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtBuscarActionPerformed
 
-    private void btnHabitaciónMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnHabitaciónMouseClicked
-        CardLayout card = (CardLayout) mainPanel.getLayout();
-        card.show(mainPanel, "panelFour");
-        mostrarTabla mt = new mostrarTabla();
-        try {
-            mt.MTabla(table);
-        } catch (SQLException | IOException ex) {
-            Logger.getLogger(vistaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }//GEN-LAST:event_btnHabitaciónMouseClicked
-
-    private void btnHabitaciónMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnHabitaciónMouseEntered
-       btnHabitación.setOpaque(true);
-       btnHabitación.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-    }//GEN-LAST:event_btnHabitaciónMouseEntered
-
-    private void btnHabitaciónMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnHabitaciónMouseExited
-        btnHabitación.setOpaque(false);
-        btnHabitación.setBorder(null);
-    }//GEN-LAST:event_btnHabitaciónMouseExited
-
     private void btnRegisterMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnRegisterMouseEntered
         btnRegister.setForeground(Color.red);
     }//GEN-LAST:event_btnRegisterMouseEntered
@@ -1442,28 +1402,37 @@ public class vistaPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_btnFotoMouseClicked
 
     private void btnFotoMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnFotoMouseEntered
-       btnFoto.setForeground(Color.red);
+        btnFoto.setForeground(Color.red);
     }//GEN-LAST:event_btnFotoMouseEntered
 
     private void btnFotoMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnFotoMouseExited
         btnFoto.setForeground(Color.BLACK);
     }//GEN-LAST:event_btnFotoMouseExited
 
-    private void jLabel2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel2MouseClicked
-      CardLayout card = (CardLayout) mainPanel.getLayout();
-      card.show(mainPanel, "panelFive");
-      
-      /*bloquear textfield*/
-      this.lblRCamas.setEditable(false);
-      this.lblRHextra.setEditable(false);
-      this.lblRThabitacion.setEditable(false);
-      this.lblRbaños.setEditable(false);
-      this.lblRcama.setEditable(false);
-      this.txtRid.setEditable(false);
-      this.textDescripcion.setEditable(false);
-      
-      buscarHabitaciones bh = new buscarHabitaciones();
-    }//GEN-LAST:event_jLabel2MouseClicked
+    private void btnAsignarHabitacionMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAsignarHabitacionMouseClicked
+        CardLayout card = (CardLayout) mainPanel.getLayout();
+        card.show(mainPanel, "panelFive");
+        
+        final String sql = "SELECT * FROM habitacionesdisponibles WHERE Disponibilidad = 'DISPONIBLE'";
+        final String filtro = "idhabitacionesdisponibles";
+
+        /*bloquear textfield*/
+        this.lblRCamas.setEditable(false);
+        this.lblRHextra.setEditable(false);
+        this.lblRThabitacion.setEditable(false);
+        this.lblRbaños.setEditable(false);
+        this.lblRcama.setEditable(false);
+        this.txtRid.setEditable(false);
+        this.textDescripcion.setEditable(false);
+        
+        buscarHabitaciones bh = new buscarHabitaciones();
+        
+        try {
+            bh.llenarComboBox(HabitacionesBox, sql, filtro);
+        } catch (SQLException ex) {
+            Logger.getLogger(vistaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_btnAsignarHabitacionMouseClicked
 
     private void lblRHextraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lblRHextraActionPerformed
         // TODO add your handling code here:
@@ -1486,7 +1455,7 @@ public class vistaPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_lblRThabitacionActionPerformed
 
     private void btnBuscarUsuarioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnBuscarUsuarioMouseClicked
-       buscarCliente bc = new buscarCliente();
+        buscarCliente bc = new buscarCliente();
         try {
             bc.buscarCliente(nombreClienteFiltro.getText(), telClienteFiltro.getText(), txtRid);
         } catch (SQLException ex) {
@@ -1495,13 +1464,77 @@ public class vistaPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_btnBuscarUsuarioMouseClicked
 
     private void btnRegistrarNuevaHabitacionMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnRegistrarNuevaHabitacionMouseClicked
-       try{
-       dg = new modalRhabitaciones();
-       } catch (Exception e){
-       Logger.getLogger(vistaPrincipal.class.getName()).log(Level.SEVERE, null, e);
-       }
+        try {
+            dg = new modalRhabitaciones();
+        } catch (Exception e) {
+            Logger.getLogger(vistaPrincipal.class.getName()).log(Level.SEVERE, null, e);
+        }
         dg.setVisible(true);
     }//GEN-LAST:event_btnRegistrarNuevaHabitacionMouseClicked
+
+    private void btnRegistrarNuevaHabitacionMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnRegistrarNuevaHabitacionMouseEntered
+        btnRegistrarNuevaHabitacion.setForeground(Color.red);
+    }//GEN-LAST:event_btnRegistrarNuevaHabitacionMouseEntered
+
+    private void btnRegistrarNuevaHabitacionMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnRegistrarNuevaHabitacionMouseExited
+        btnRegistrarNuevaHabitacion.setForeground(Color.BLACK);
+    }//GEN-LAST:event_btnRegistrarNuevaHabitacionMouseExited
+
+    private void btnAsignarHabitacionMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAsignarHabitacionMouseEntered
+        btnAsignarHabitacion.setOpaque(true);
+        btnAsignarHabitacion.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+    }//GEN-LAST:event_btnAsignarHabitacionMouseEntered
+
+    private void btnAsignarHabitacionMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAsignarHabitacionMouseExited
+        btnAsignarHabitacion.setOpaque(false);
+        btnAsignarHabitacion.setBorder(null);
+    }//GEN-LAST:event_btnAsignarHabitacionMouseExited
+
+    private void HabitacionesBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_HabitacionesBoxActionPerformed
+        LlenarDatosCliente ldc = new LlenarDatosCliente();
+        
+        String filtroHabitacion = null;
+        if (!this.HabitacionesBox.getSelectedItem().toString().equals("SELECCIONAR HABITACIÓN")) {
+            try {
+                filtroHabitacion = ldc.relacionarTabla(HabitacionesBox.getSelectedItem().toString());
+            } catch (SQLException ex) {
+                Logger.getLogger(vistaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+            try {
+                ldc.llenarDatos(filtroHabitacion, lblRThabitacion, lblRCamas, lblRbaños, lblRcama, lblRHextra, textDescripcion);
+            } catch (SQLException ex) {
+                Logger.getLogger(vistaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } else {
+            lblRThabitacion.setText(null);
+            lblRCamas.setText(null);
+            lblRbaños.setText(null);
+            lblRcama.setText(null);
+            lblRHextra.setText(null);
+            textDescripcion.setText(null);
+        }
+    }//GEN-LAST:event_HabitacionesBoxActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        
+        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        registrarIngresoDeCliente ridc = new registrarIngresoDeCliente();
+        try {
+            ridc.registrar(nombreClienteFiltro.getText(), telClienteFiltro.getText(),
+                    HabitacionesBox.getSelectedItem().toString(), lblRThabitacion.getText(),
+                     dateFormat.format(dateReserva.getDate()), dateFormat.format(dateIngreso.getDate()), dateFormat.format(dateSalida.getDate()));
+        } catch (SQLException ex) {
+            Logger.getLogger(vistaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        try {
+            ridc.updateHabitacion(HabitacionesBox.getSelectedItem().toString());
+        } catch (SQLException ex) {
+            Logger.getLogger(vistaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -1540,15 +1573,14 @@ public class vistaPrincipal extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<String> HabitacionesBox;
-    private javax.swing.JPanel Menu;
     private javax.swing.JPanel barraTitulo;
+    private javax.swing.JLabel btnAsignarHabitacion;
     private javax.swing.JLabel btnBuscar;
     private javax.swing.JLabel btnBuscarUsuario;
     private javax.swing.JLabel btnCbaños;
     private javax.swing.JLabel btnClose;
     private javax.swing.JLabel btnCorreoElect;
     private javax.swing.JLabel btnFoto;
-    private javax.swing.JLabel btnHabitación;
     private javax.swing.JLabel btnInit;
     private javax.swing.JLabel btnMaximize;
     private javax.swing.JLabel btnMinimize;
@@ -1560,28 +1592,26 @@ public class vistaPrincipal extends javax.swing.JFrame {
     private javax.swing.JLabel btnTcama;
     private javax.swing.JPanel buttons;
     private javax.swing.JPanel cabezera;
-    private javax.swing.JLabel icon;
+    private com.toedter.calendar.JDateChooser dateIngreso;
+    private com.toedter.calendar.JDateChooser dateReserva;
+    private com.toedter.calendar.JDateChooser dateSalida;
     private javax.swing.JPanel j1;
     private javax.swing.JPanel j2;
     private javax.swing.JPanel j3;
     private javax.swing.JPanel j4;
     private javax.swing.JPanel j5;
+    private javax.swing.JButton jButton1;
     private javax.swing.JComboBox<String> jComboBox2;
-    private com.toedter.calendar.JDateChooser jDateChooser1;
-    private com.toedter.calendar.JDateChooser jDateChooser2;
-    private com.toedter.calendar.JDateChooser jDateChooser3;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator10;
     private javax.swing.JSeparator jSeparator2;
@@ -1638,7 +1668,6 @@ public class vistaPrincipal extends javax.swing.JFrame {
     private javax.swing.JTable table;
     private javax.swing.JTextField telClienteFiltro;
     private javax.swing.JTextArea textDescripcion;
-    private javax.swing.JLabel tituloEncabezado;
     private javax.swing.JTextField txtBuscar;
     private javax.swing.JTextField txtCorreoCliente;
     private javax.swing.JTextArea txtDescripción;

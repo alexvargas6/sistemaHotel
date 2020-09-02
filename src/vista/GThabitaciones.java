@@ -11,13 +11,25 @@ public class GThabitaciones {
     private String baños;
     private String Hextras;
     private String Hnombre;
-    
-    public String getHnombre(){
-    return Hnombre;
+
+    /*booleanos*/
+    private boolean first = true;
+
+    public boolean isFirst() {
+        return first;
     }
+
+    public void setFirst(boolean first) {
+        this.first = first;
+    }
+
     
-    public void setHnombre(String Hnombre){
-    this.Hnombre = Hnombre;
+    public String getHnombre() {
+        return Hnombre;
+    }
+
+    public void setHnombre(String Hnombre) {
+        this.Hnombre = Hnombre;
     }
 
     public String getNombre() {

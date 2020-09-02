@@ -112,7 +112,7 @@ public class modalRhabitaciones extends javax.swing.JFrame {
 
     private void btnAltaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAltaMouseClicked
       try {
-          rnh.registrar(ThabitacionesBox.getSelectedItem().toString());
+          rnh.registrar(ThabitacionesBox.getSelectedItem().toString(), this);
       } catch (SQLException ex) {
           Logger.getLogger(modalRhabitaciones.class.getName()).log(Level.SEVERE, null, ex);
       }

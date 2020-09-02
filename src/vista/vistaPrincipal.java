@@ -18,10 +18,12 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 import registro.registrarIngresoDeCliente;
 import registro.registrarThabitación;
 import registro.registrarUsuario;
 import tabla.mostrarTabla;
+import tabla.tablaDeudores;
 
 /**
  *
@@ -36,17 +38,30 @@ public class vistaPrincipal extends javax.swing.JFrame {
         initComponents();
         AWTUtilities.setWindowOpaque(this, false);
         this.setLocationRelativeTo(null);
-        
+
         this.txtRuta.setEditable(false);
-        
+
         this.setTitle("VISTA PRINCIPAL");
-        
+
         try {
             mt.MTabla(table);
         } catch (SQLException | IOException ex) {
             Logger.getLogger(vistaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
         }
+
+        try {
+            td.buscarDudores(tableDeudores);
+        } catch (SQLException ex) {
+            Logger.getLogger(vistaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
     }
+    
+    /*String*/
+    
+    private String nombreDeud;
+    private String deu;
+    private String FsalidaDeudor;
 
     /*int*/
     int yE;
@@ -54,7 +69,7 @@ public class vistaPrincipal extends javax.swing.JFrame {
 
     /*booleanos*/
     private boolean fullScreen = false;
-    
+
     FileInputStream foto;
 
     /*clases*/
@@ -62,15 +77,42 @@ public class vistaPrincipal extends javax.swing.JFrame {
     registrarUsuario ru = new registrarUsuario();
     modalRhabitaciones dg = null;
     mostrarTabla mt = new mostrarTabla();
+    tablaDeudores td = new tablaDeudores();
+
+    public String getNombreDeud() {
+        return nombreDeud;
+    }
+
+    public void setNombreDeud(String nombreDeud) {
+        this.nombreDeud = nombreDeud;
+    }
+
+    public String getDeu() {
+        return deu;
+    }
+
+    public void setDeu(String deu) {
+        this.deu = deu;
+    }
+
+    public String getFsalidaDeudor() {
+        return FsalidaDeudor;
+    }
+
+    public void setFsalidaDeudor(String FsalidaDeudor) {
+        this.FsalidaDeudor = FsalidaDeudor;
+    }
     
+    
+
     public boolean isFullScreen() {
         return fullScreen;
     }
-    
+
     public void setFullScreen(boolean fullScreen) {
         this.fullScreen = fullScreen;
     }
-    
+
     private void tomarDatosCliente() {
         GTu.setNombre(this.txtNombreCliente.getText());
         GTu.setNtelefono(this.txtNúmeroCliente.getText());
@@ -80,7 +122,7 @@ public class vistaPrincipal extends javax.swing.JFrame {
         GTu.setBaños(this.jcBaños.getSelectedItem().toString());
         GTu.setHextras(this.jcHe.getSelectedItem().toString());
     }
-    
+
     private void tomarDatosHabitaciones() {
         GTu.setCamas(this.jcCamas1.getSelectedItem().toString());
         GTu.setTcama(this.jcTc1.getSelectedItem().toString());
@@ -89,6 +131,14 @@ public class vistaPrincipal extends javax.swing.JFrame {
         GTu.setHnombre(this.txtTipoHabitacion.getText());
     }
     
+    public void seleccionTabla(){
+    DefaultTableModel model = (DefaultTableModel) this.tableDeudores.getModel();
+    setNombreDeud(String.valueOf(model.getValueAt(tableDeudores.getSelectedRow(), 0)));
+    setDeu(String.valueOf(model.getValueAt(tableDeudores.getSelectedRow(), 1)));
+    setFsalidaDeudor(String.valueOf(model.getValueAt(tableDeudores.getSelectedRow(), 2)));
+    
+    }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -108,6 +158,8 @@ public class vistaPrincipal extends javax.swing.JFrame {
         jLabel6 = new javax.swing.JLabel();
         jScrollPane4 = new javax.swing.JScrollPane();
         table = new javax.swing.JTable();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        tableDeudores = new javax.swing.JTable();
         j2 = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
         lblNombreCliente = new javax.swing.JLabel();
@@ -173,9 +225,9 @@ public class vistaPrincipal extends javax.swing.JFrame {
         lblFingreso = new javax.swing.JLabel();
         lblFsalida = new javax.swing.JLabel();
         lblCosto = new javax.swing.JLabel();
-        jTextField4 = new javax.swing.JTextField();
+        txtCosto = new javax.swing.JTextField();
         lblEstadoReserva = new javax.swing.JLabel();
-        jComboBox2 = new javax.swing.JComboBox<>();
+        estadoReservaBox = new javax.swing.JComboBox<>();
         dateReserva = new com.toedter.calendar.JDateChooser();
         dateIngreso = new com.toedter.calendar.JDateChooser();
         dateSalida = new com.toedter.calendar.JDateChooser();
@@ -192,7 +244,7 @@ public class vistaPrincipal extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         telClienteFiltro = new javax.swing.JTextField();
         btnBuscarUsuario = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        btnAltaIngresoCliente = new javax.swing.JLabel();
         barraTitulo = new javax.swing.JPanel();
         btnMaximize = new javax.swing.JLabel();
         btnMinimize = new javax.swing.JLabel();
@@ -351,18 +403,37 @@ public class vistaPrincipal extends javax.swing.JFrame {
         table.setSelectionForeground(new java.awt.Color(255, 255, 255));
         jScrollPane4.setViewportView(table);
 
+        tableDeudores.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+
+            }
+        ));
+        tableDeudores.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tableDeudoresMouseClicked(evt);
+            }
+        });
+        jScrollPane3.setViewportView(tableDeudores);
+
         javax.swing.GroupLayout j1Layout = new javax.swing.GroupLayout(j1);
         j1.setLayout(j1Layout);
         j1Layout.setHorizontalGroup(
             j1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, j1Layout.createSequentialGroup()
+            .addGroup(j1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane4)
-                .addContainerGap())
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, j1Layout.createSequentialGroup()
-                .addContainerGap(299, Short.MAX_VALUE)
-                .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 331, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(278, 278, 278))
+                .addGroup(j1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, j1Layout.createSequentialGroup()
+                        .addGap(0, 293, Short.MAX_VALUE)
+                        .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 331, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(278, 278, 278))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, j1Layout.createSequentialGroup()
+                        .addGroup(j1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jScrollPane3, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane4))
+                        .addContainerGap())))
         );
         j1Layout.setVerticalGroup(
             j1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -370,8 +441,10 @@ public class vistaPrincipal extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jLabel6)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 607, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 438, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         mainPanel.add(j1, "panelOne");
@@ -802,7 +875,7 @@ public class vistaPrincipal extends javax.swing.JFrame {
                 .addComponent(lblRegistrarHabitación, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
                 .addComponent(registroHabitación, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(41, Short.MAX_VALUE))
+                .addContainerGap(53, Short.MAX_VALUE))
         );
 
         mainPanel.add(j3, "panelThree");
@@ -815,7 +888,7 @@ public class vistaPrincipal extends javax.swing.JFrame {
         );
         j4Layout.setVerticalGroup(
             j4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 672, Short.MAX_VALUE)
+            .addGap(0, 684, Short.MAX_VALUE)
         );
 
         mainPanel.add(j4, "panelFour");
@@ -870,7 +943,7 @@ public class vistaPrincipal extends javax.swing.JFrame {
         lblEstadoReserva.setFont(new java.awt.Font("Dubai", 1, 14)); // NOI18N
         lblEstadoReserva.setText("ESTADO DE RESERVA:");
 
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "ESTADO DE RESERVA", "PAGADA", "PENDIENTE" }));
+        estadoReservaBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "ESTADO DE RESERVA", "PAGADA", "PENDIENTE" }));
 
         lblRHextra.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -947,8 +1020,8 @@ public class vistaPrincipal extends javax.swing.JFrame {
                                 .addGroup(panelForumarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addComponent(dateSalida, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(dateIngreso, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jTextField4, javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jComboBox2, javax.swing.GroupLayout.Alignment.TRAILING, 0, 227, Short.MAX_VALUE))))))
+                                    .addComponent(txtCosto, javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(estadoReservaBox, javax.swing.GroupLayout.Alignment.TRAILING, 0, 227, Short.MAX_VALUE))))))
                 .addContainerGap())
         );
         panelForumarioLayout.setVerticalGroup(
@@ -998,12 +1071,12 @@ public class vistaPrincipal extends javax.swing.JFrame {
                 .addGroup(panelForumarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(panelForumarioLayout.createSequentialGroup()
                         .addComponent(lblCosto, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(lblEstadoReserva, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(panelForumarioLayout.createSequentialGroup()
-                        .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txtCosto, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(estadoReservaBox, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(17, 17, 17))
         );
 
@@ -1066,10 +1139,20 @@ public class vistaPrincipal extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        jButton1.setText("jButton1");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+        btnAltaIngresoCliente.setFont(new java.awt.Font("DialogInput", 1, 18)); // NOI18N
+        btnAltaIngresoCliente.setForeground(new java.awt.Color(0, 0, 0));
+        btnAltaIngresoCliente.setText("DAR DE ALTA");
+        btnAltaIngresoCliente.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        btnAltaIngresoCliente.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnAltaIngresoCliente.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnAltaIngresoClienteMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnAltaIngresoClienteMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnAltaIngresoClienteMouseExited(evt);
             }
         });
 
@@ -1082,9 +1165,9 @@ public class vistaPrincipal extends javax.swing.JFrame {
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(panelForumario, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(panelBaner, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(54, 54, 54)
-                .addComponent(jButton1)
-                .addGap(42, 42, 42))
+                .addGap(32, 32, 32)
+                .addComponent(btnAltaIngresoCliente)
+                .addGap(18, 18, 18))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1096,8 +1179,8 @@ public class vistaPrincipal extends javax.swing.JFrame {
                         .addComponent(panelForumario, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addContainerGap())
                     .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addGap(121, 121, 121)
-                        .addComponent(jButton1)
+                        .addGap(152, 152, 152)
+                        .addComponent(btnAltaIngresoCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
 
@@ -1412,7 +1495,7 @@ public class vistaPrincipal extends javax.swing.JFrame {
     private void btnAsignarHabitacionMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAsignarHabitacionMouseClicked
         CardLayout card = (CardLayout) mainPanel.getLayout();
         card.show(mainPanel, "panelFive");
-        
+
         final String sql = "SELECT * FROM habitacionesdisponibles WHERE Disponibilidad = 'DISPONIBLE'";
         final String filtro = "idhabitacionesdisponibles";
 
@@ -1423,10 +1506,13 @@ public class vistaPrincipal extends javax.swing.JFrame {
         this.lblRbaños.setEditable(false);
         this.lblRcama.setEditable(false);
         this.txtRid.setEditable(false);
+        this.telClienteFiltro.setEditable(false);
         this.textDescripcion.setEditable(false);
-        
+
         buscarHabitaciones bh = new buscarHabitaciones();
-        
+
+        /*HabitacionesBox.removeAllItems();
+        HabitacionesBox.addItem("SELECCIONAR HABITACIÓN");*/
         try {
             bh.llenarComboBox(HabitacionesBox, sql, filtro);
         } catch (SQLException ex) {
@@ -1457,7 +1543,7 @@ public class vistaPrincipal extends javax.swing.JFrame {
     private void btnBuscarUsuarioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnBuscarUsuarioMouseClicked
         buscarCliente bc = new buscarCliente();
         try {
-            bc.buscarCliente(nombreClienteFiltro.getText(), telClienteFiltro.getText(), txtRid);
+            bc.buscarCliente(nombreClienteFiltro.getText(), telClienteFiltro, txtRid);
         } catch (SQLException ex) {
             Logger.getLogger(vistaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -1492,7 +1578,7 @@ public class vistaPrincipal extends javax.swing.JFrame {
 
     private void HabitacionesBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_HabitacionesBoxActionPerformed
         LlenarDatosCliente ldc = new LlenarDatosCliente();
-        
+
         String filtroHabitacion = null;
         if (!this.HabitacionesBox.getSelectedItem().toString().equals("SELECCIONAR HABITACIÓN")) {
             try {
@@ -1500,7 +1586,7 @@ public class vistaPrincipal extends javax.swing.JFrame {
             } catch (SQLException ex) {
                 Logger.getLogger(vistaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
             }
-            
+
             try {
                 ldc.llenarDatos(filtroHabitacion, lblRThabitacion, lblRCamas, lblRbaños, lblRcama, lblRHextra, textDescripcion);
             } catch (SQLException ex) {
@@ -1516,25 +1602,49 @@ public class vistaPrincipal extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_HabitacionesBoxActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        
-        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-        registrarIngresoDeCliente ridc = new registrarIngresoDeCliente();
-        try {
-            ridc.registrar(nombreClienteFiltro.getText(), telClienteFiltro.getText(),
-                    HabitacionesBox.getSelectedItem().toString(), lblRThabitacion.getText(),
-                     dateFormat.format(dateReserva.getDate()), dateFormat.format(dateIngreso.getDate()), dateFormat.format(dateSalida.getDate()));
-        } catch (SQLException ex) {
-            Logger.getLogger(vistaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+    private void btnAltaIngresoClienteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAltaIngresoClienteMouseClicked
+        if (nombreClienteFiltro.getText().length() > 0 && telClienteFiltro.getText().length() > 0
+                && !HabitacionesBox.getSelectedItem().equals("SELECCIONAR HABITACIÓN") && lblRThabitacion.getText().length() > 0
+                && dateReserva.getDate() != null && dateIngreso.getDate() != null && dateSalida.getDate() != null && txtCosto.getText().length() > 0
+                && !estadoReservaBox.getSelectedItem().equals("ESTADO DE RESERVA")) {
+
+            DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+            registrarIngresoDeCliente ridc = new registrarIngresoDeCliente();
+            try {
+                ridc.registrar(nombreClienteFiltro.getText(), telClienteFiltro.getText(),
+                        HabitacionesBox.getSelectedItem().toString(), lblRThabitacion.getText(),
+                        dateFormat.format(dateReserva.getDate()), dateFormat.format(dateIngreso.getDate()), 
+                        dateFormat.format(dateSalida.getDate()),
+                        txtCosto.getText(), estadoReservaBox.getSelectedItem().toString());
+            } catch (SQLException ex) {
+                Logger.getLogger(vistaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+            try {
+                ridc.updateHabitacion(HabitacionesBox.getSelectedItem().toString());
+            } catch (SQLException ex) {
+                Logger.getLogger(vistaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "NO DEJES CAMPOS VACÍOS", "ERROR DE OPERACIÓN", JOptionPane.INFORMATION_MESSAGE);
         }
+    }//GEN-LAST:event_btnAltaIngresoClienteMouseClicked
+
+    private void btnAltaIngresoClienteMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAltaIngresoClienteMouseEntered
+        btnAltaIngresoCliente.setForeground(Color.red);
+    }//GEN-LAST:event_btnAltaIngresoClienteMouseEntered
+
+    private void btnAltaIngresoClienteMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAltaIngresoClienteMouseExited
+        btnAltaIngresoCliente.setForeground(Color.black);
+    }//GEN-LAST:event_btnAltaIngresoClienteMouseExited
+
+    private void tableDeudoresMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableDeudoresMouseClicked
+    seleccionTabla();
+    
+    int confirmar = JOptionPane.showConfirmDialog(null, "¿El usuario ha liquidado su deuda?", "PAGAR DEUDA",JOptionPane.INFORMATION_MESSAGE);
         
-        try {
-            ridc.updateHabitacion(HabitacionesBox.getSelectedItem().toString());
-        } catch (SQLException ex) {
-            Logger.getLogger(vistaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
-        }
         
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_tableDeudoresMouseClicked
 
     /**
      * @param args the command line arguments
@@ -1574,6 +1684,7 @@ public class vistaPrincipal extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<String> HabitacionesBox;
     private javax.swing.JPanel barraTitulo;
+    private javax.swing.JLabel btnAltaIngresoCliente;
     private javax.swing.JLabel btnAsignarHabitacion;
     private javax.swing.JLabel btnBuscar;
     private javax.swing.JLabel btnBuscarUsuario;
@@ -1595,13 +1706,12 @@ public class vistaPrincipal extends javax.swing.JFrame {
     private com.toedter.calendar.JDateChooser dateIngreso;
     private com.toedter.calendar.JDateChooser dateReserva;
     private com.toedter.calendar.JDateChooser dateSalida;
+    private javax.swing.JComboBox<String> estadoReservaBox;
     private javax.swing.JPanel j1;
     private javax.swing.JPanel j2;
     private javax.swing.JPanel j3;
     private javax.swing.JPanel j4;
     private javax.swing.JPanel j5;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JComboBox<String> jComboBox2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -1611,6 +1721,7 @@ public class vistaPrincipal extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator10;
@@ -1623,7 +1734,6 @@ public class vistaPrincipal extends javax.swing.JFrame {
     private javax.swing.JSeparator jSeparator8;
     private javax.swing.JSeparator jSeparator9;
     private javax.swing.JSpinner jSpinner1;
-    private javax.swing.JTextField jTextField4;
     private javax.swing.JComboBox<String> jcBaños;
     private javax.swing.JComboBox<String> jcBaños1;
     private javax.swing.JComboBox<String> jcCamas;
@@ -1666,10 +1776,12 @@ public class vistaPrincipal extends javax.swing.JFrame {
     private javax.swing.JPanel panelForumario;
     private javax.swing.JPanel registroHabitación;
     private javax.swing.JTable table;
+    private javax.swing.JTable tableDeudores;
     private javax.swing.JTextField telClienteFiltro;
     private javax.swing.JTextArea textDescripcion;
     private javax.swing.JTextField txtBuscar;
     private javax.swing.JTextField txtCorreoCliente;
+    private javax.swing.JTextField txtCosto;
     private javax.swing.JTextArea txtDescripción;
     private javax.swing.JTextField txtNombreCliente;
     private javax.swing.JTextField txtNúmeroCliente;

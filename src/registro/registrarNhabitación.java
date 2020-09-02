@@ -6,6 +6,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
+import vista.modalRhabitaciones;
 
 /**
  *
@@ -15,7 +16,7 @@ public class registrarNhabitación {
 
     conexión c = new conexión();
 
-    public void registrar(String tipoHabitacion) throws SQLException {
+    public void registrar(String tipoHabitacion, modalRhabitaciones mrh) throws SQLException {
 
         Connection con = connect();
 
@@ -27,6 +28,7 @@ public class registrarNhabitación {
             int resp = pst.executeUpdate();
             if (resp > 0) {
                 JOptionPane.showMessageDialog(null, "Habitación registrada", "OPERACIÓN EXITOSA", JOptionPane.INFORMATION_MESSAGE);
+                mrh.setVisible(false);
             } else {
                 JOptionPane.showMessageDialog(null, "Error al tratar de registrar habitación", "ERROR EN OPERACIÓN", JOptionPane.ERROR_MESSAGE);
             }

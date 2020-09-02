@@ -17,12 +17,12 @@ public class registrarIngresoDeCliente {
     conexión c = new conexión();
 
     public void registrar(String nombre, String tel, String Habitacion, String Thabitacion,
-            String Freserva, String Fingreso, String Fsalida) throws SQLException {
+            String Freserva, String Fingreso, String Fsalida, String deuda, String estadoReserva) throws SQLException {
 
         Connection con = connect();
 
-        final String sql = "INSERT INTO clienteshospedados(Nombre,Tel,Habitacion,Thabitacion,Freserva,Fingreso,Fsalida,Hospedaje)"
-                + "VALUES (?,?,?,?,?,?,?,?)";
+        final String sql = "INSERT INTO clienteshospedados(Nombre,Tel,Habitacion,Thabitacion,Freserva,Fingreso,Fsalida,Hospedaje,Deuda,estadoReserva)"
+                + "VALUES (?,?,?,?,?,?,?,?,?,?)";
         try {
             PreparedStatement pst = con.prepareStatement(sql);
             pst.setString(1, nombre);
@@ -33,6 +33,8 @@ public class registrarIngresoDeCliente {
             pst.setString(6, Fingreso);
             pst.setString(7, Fsalida);
             pst.setString(8, "1");
+            pst.setString(9, deuda);
+            pst.setString(10, estadoReserva);
             int resp = pst.executeUpdate();
             if (resp > 0) {
                 JOptionPane.showMessageDialog(null, "El cliente debera ocupar el: " + Freserva + "Y salir: " + Fsalida, "OPERACIÓN EXITOSA",

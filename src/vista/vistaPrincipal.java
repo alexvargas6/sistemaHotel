@@ -24,6 +24,7 @@ import registro.registrarThabitación;
 import registro.registrarUsuario;
 import tabla.mostrarTabla;
 import tabla.tablaDeudores;
+import update.UpdatePago;
 
 /**
  *
@@ -56,9 +57,8 @@ public class vistaPrincipal extends javax.swing.JFrame {
         }
 
     }
-    
+
     /*String*/
-    
     private String nombreDeud;
     private String deu;
     private String FsalidaDeudor;
@@ -69,6 +69,7 @@ public class vistaPrincipal extends javax.swing.JFrame {
 
     /*booleanos*/
     private boolean fullScreen = false;
+    boolean first = true;
 
     FileInputStream foto;
 
@@ -102,8 +103,6 @@ public class vistaPrincipal extends javax.swing.JFrame {
     public void setFsalidaDeudor(String FsalidaDeudor) {
         this.FsalidaDeudor = FsalidaDeudor;
     }
-    
-    
 
     public boolean isFullScreen() {
         return fullScreen;
@@ -130,13 +129,35 @@ public class vistaPrincipal extends javax.swing.JFrame {
         GTu.setHextras(this.jcHe1.getSelectedItem().toString());
         GTu.setHnombre(this.txtTipoHabitacion.getText());
     }
-    
-    public void seleccionTabla(){
-    DefaultTableModel model = (DefaultTableModel) this.tableDeudores.getModel();
-    setNombreDeud(String.valueOf(model.getValueAt(tableDeudores.getSelectedRow(), 0)));
-    setDeu(String.valueOf(model.getValueAt(tableDeudores.getSelectedRow(), 1)));
-    setFsalidaDeudor(String.valueOf(model.getValueAt(tableDeudores.getSelectedRow(), 2)));
-    
+
+    public void seleccionTabla() {
+        DefaultTableModel model = (DefaultTableModel) this.tableDeudores.getModel();
+        setNombreDeud(String.valueOf(model.getValueAt(tableDeudores.getSelectedRow(), 0)));
+        setDeu(String.valueOf(model.getValueAt(tableDeudores.getSelectedRow(), 1)));
+        setFsalidaDeudor(String.valueOf(model.getValueAt(tableDeudores.getSelectedRow(), 2)));
+    }
+
+    public void ocultarRow() {
+
+        int viewIndex = tableDeudores.getSelectedRow();
+        int modelIndex = tableDeudores.convertRowIndexToModel(viewIndex);
+
+        try {
+            DefaultTableModel modelo = (DefaultTableModel) tableDeudores.getModel();
+            modelo.removeRow(modelIndex); //quitamos de la tabla la fila seleccionada
+        } catch (Exception e) {
+            System.out.println("Error al quitar la fila: " + e);
+        }
+    }
+
+    public void formatearPanel() {
+        txtNombreCliente.setText(null);
+        txtNúmeroCliente.setText(null);
+        txtCorreoCliente.setText(null);
+        jcCamas.setSelectedItem("Camas");
+        jcTc.setSelectedItem("T.Cama");
+        jcBaños.setSelectedItem("Baños");
+        jcHe.setSelectedItem("H. Extras");
     }
 
     @SuppressWarnings("unchecked")
@@ -207,7 +228,6 @@ public class vistaPrincipal extends javax.swing.JFrame {
         txtRuta = new javax.swing.JTextField();
         lblRegistrarHabitación = new javax.swing.JLabel();
         btnRegistrarNuevaHabitacion = new javax.swing.JLabel();
-        j4 = new javax.swing.JPanel();
         j5 = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
         panelForumario = new javax.swing.JPanel();
@@ -344,8 +364,13 @@ public class vistaPrincipal extends javax.swing.JFrame {
         cabezera.setBackground(new java.awt.Color(204, 0, 50));
 
         txtBuscar.setBackground(new java.awt.Color(204, 0, 50));
-        txtBuscar.setText("jTextField1");
+        txtBuscar.setText("BUSCAR");
         txtBuscar.setBorder(null);
+        txtBuscar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                txtBuscarMouseClicked(evt);
+            }
+        });
         txtBuscar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtBuscarActionPerformed(evt);
@@ -880,19 +905,6 @@ public class vistaPrincipal extends javax.swing.JFrame {
 
         mainPanel.add(j3, "panelThree");
 
-        javax.swing.GroupLayout j4Layout = new javax.swing.GroupLayout(j4);
-        j4.setLayout(j4Layout);
-        j4Layout.setHorizontalGroup(
-            j4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 908, Short.MAX_VALUE)
-        );
-        j4Layout.setVerticalGroup(
-            j4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 684, Short.MAX_VALUE)
-        );
-
-        mainPanel.add(j4, "panelFour");
-
         jPanel4.setBackground(new java.awt.Color(255, 255, 255));
 
         panelForumario.setBackground(new java.awt.Color(255, 255, 255));
@@ -1242,7 +1254,7 @@ public class vistaPrincipal extends javax.swing.JFrame {
             }
         });
 
-        btnClose.setBackground(new java.awt.Color(126, 0, 31));
+        btnClose.setBackground(new java.awt.Color(232, 17, 35));
         btnClose.setIcon(new javax.swing.ImageIcon("img\\close.png"));
         btnClose.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -1299,7 +1311,7 @@ public class vistaPrincipal extends javax.swing.JFrame {
                 .addComponent(cabezera, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(mainPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 672, Short.MAX_VALUE)
+                    .addComponent(mainPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 672, Short.MAX_VALUE)
                     .addComponent(buttons, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
 
@@ -1416,17 +1428,22 @@ public class vistaPrincipal extends javax.swing.JFrame {
     private void btnRegistrarUsuarioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnRegistrarUsuarioMouseClicked
         GTu = new GThabitaciones();
         tomarDatosCliente();
+        boolean registroExitoso = false;
         if (GTu.getNombre().length() > 0 && GTu.getCorreoE().length() > 0 && GTu.getNtelefono().length() > 0
                 && !GTu.getCamas().equals("Camas") && !GTu.getTcama().equals("T.Cama") && !GTu.getBaños().equals("Baños")
                 && !GTu.getHextras().equals("H. Extras")) {
             try {
-                ru.registrar(GTu.getNombre(), GTu.getNtelefono(),
+                registroExitoso = ru.registrar(GTu.getNombre(), GTu.getNtelefono(),
                         GTu.getCorreoE(), GTu.getCamas(), GTu.getTcama(), GTu.getBaños(), GTu.getHextras());
             } catch (SQLException ex) {
                 Logger.getLogger(vistaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
             }
         } else {
             JOptionPane.showMessageDialog(rootPane, "Por favor, no dejes campos vacíos", "ERROR DE OPARCIÓN", JOptionPane.ERROR_MESSAGE);
+        }
+
+        if (registroExitoso) {
+            this.formatearPanel();
         }
     }//GEN-LAST:event_btnRegistrarUsuarioMouseClicked
 
@@ -1445,7 +1462,7 @@ public class vistaPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCloseMouseEntered
 
     private void txtBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtBuscarActionPerformed
-        // TODO add your handling code here:
+        
     }//GEN-LAST:event_txtBuscarActionPerformed
 
     private void btnRegisterMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnRegisterMouseEntered
@@ -1511,13 +1528,16 @@ public class vistaPrincipal extends javax.swing.JFrame {
 
         buscarHabitaciones bh = new buscarHabitaciones();
 
-        /*HabitacionesBox.removeAllItems();
-        HabitacionesBox.addItem("SELECCIONAR HABITACIÓN");*/
+        if(!first){
+        HabitacionesBox.removeAllItems();
+        HabitacionesBox.addItem("SELECCIONAR HABITACIÓN");
+        }
         try {
             bh.llenarComboBox(HabitacionesBox, sql, filtro);
         } catch (SQLException ex) {
             Logger.getLogger(vistaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
         }
+        first = false;
     }//GEN-LAST:event_btnAsignarHabitacionMouseClicked
 
     private void lblRHextraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lblRHextraActionPerformed
@@ -1613,7 +1633,7 @@ public class vistaPrincipal extends javax.swing.JFrame {
             try {
                 ridc.registrar(nombreClienteFiltro.getText(), telClienteFiltro.getText(),
                         HabitacionesBox.getSelectedItem().toString(), lblRThabitacion.getText(),
-                        dateFormat.format(dateReserva.getDate()), dateFormat.format(dateIngreso.getDate()), 
+                        dateFormat.format(dateReserva.getDate()), dateFormat.format(dateIngreso.getDate()),
                         dateFormat.format(dateSalida.getDate()),
                         txtCosto.getText(), estadoReservaBox.getSelectedItem().toString());
             } catch (SQLException ex) {
@@ -1639,12 +1659,33 @@ public class vistaPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_btnAltaIngresoClienteMouseExited
 
     private void tableDeudoresMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableDeudoresMouseClicked
-    seleccionTabla();
-    
-    int confirmar = JOptionPane.showConfirmDialog(null, "¿El usuario ha liquidado su deuda?", "PAGAR DEUDA",JOptionPane.INFORMATION_MESSAGE);
-        
-        
+        seleccionTabla();
+        boolean operacionExitosa = false;
+
+        int confirmar = JOptionPane.showConfirmDialog(null, "¿El usuario ha liquidado su deuda?", "PAGAR DEUDA", JOptionPane.INFORMATION_MESSAGE);
+
+        if (confirmar == JOptionPane.YES_OPTION) {
+            UpdatePago up = new UpdatePago();
+
+            try {
+                operacionExitosa = up.updatePago(getNombreDeud(), getFsalidaDeudor());
+            } catch (SQLException ex) {
+                Logger.getLogger(vistaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+            if (operacionExitosa) {
+                ocultarRow();
+            }
+
+        }
+
     }//GEN-LAST:event_tableDeudoresMouseClicked
+
+    private void txtBuscarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtBuscarMouseClicked
+      if(txtBuscar.getText().equals("BUSCAR")){
+      txtBuscar.setText(null);
+      }
+    }//GEN-LAST:event_txtBuscarMouseClicked
 
     /**
      * @param args the command line arguments
@@ -1710,7 +1751,6 @@ public class vistaPrincipal extends javax.swing.JFrame {
     private javax.swing.JPanel j1;
     private javax.swing.JPanel j2;
     private javax.swing.JPanel j3;
-    private javax.swing.JPanel j4;
     private javax.swing.JPanel j5;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;

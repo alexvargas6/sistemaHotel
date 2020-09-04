@@ -13,9 +13,11 @@ public class registrarUsuario {
 
     conexión c = new conexión();
 
-    public void registrar(String Nombre, String Telefono, String Correo,
+    public boolean registrar(String Nombre, String Telefono, String Correo,
             String Camas, String TipoCama, String Baños, String HabitacionesExtra) throws SQLException {
         Connection con = connect();
+        
+        boolean registroExitoso = false;
 
         final String SQL = "INSERT INTO registrousuario(Nombre,Telefono,Correo,Camas,TipoCama,Baños,HabitacionesExtra) values(?,?,?,?,?,?,?)";
         try {
@@ -31,8 +33,10 @@ public class registrarUsuario {
             if (resp > 0) {
                 JOptionPane.showMessageDialog(null, "Cliente registrado", "OPERACIÓN EXITOSA", JOptionPane.INFORMATION_MESSAGE);
                 System.out.println("objeto insertado");
+                registroExitoso = true;
             } else {
                 JOptionPane.showMessageDialog(null, "Ocurrio un problema al registrar al usuario", "ERROR EN LA OPERACIÓN", JOptionPane.ERROR_MESSAGE);
+                registroExitoso = false;
             }
         } catch (SQLException | HeadlessException e) {
             System.out.println("Error al registrar al usuario: " + e);
@@ -43,6 +47,7 @@ public class registrarUsuario {
                 System.out.println("No se pudo cerrar la conexión: " + e);
             }
         }
+        return registroExitoso;
     }
 
 }

@@ -2,6 +2,7 @@ package Buscar;
 
 import conexión.conexión;
 import static conexión.conexión.connect;
+import java.awt.event.ActionEvent;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -37,6 +38,14 @@ public class buscarCliente {
             }
         }
 
+    }
+
+    public void lblRCamasActionPerformed(ActionEvent evt) {
+        // TODO add your handling code here:
+    }
+
+    public void lblRcamaActionPerformed(ActionEvent evt) {
+        // TODO add your handling code here:
     }
 
 }

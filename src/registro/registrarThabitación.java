@@ -32,7 +32,7 @@ public class registrarThabitación {
             pst.setBlob(7, Foto);
             int resp = pst.executeUpdate();
             if (resp > 0) {
-                JOptionPane.showMessageDialog(null, "Cliente registrado", "OPERACIÓN EXITOSA", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Habitación registrada", "OPERACIÓN EXITOSA", JOptionPane.INFORMATION_MESSAGE);
                 System.out.println("Cliente registrado");
             } else {
                 JOptionPane.showMessageDialog(null, "Ocurrio un problema al registrar usuario", "ERROR EN LA OPERACIÓN", JOptionPane.ERROR_MESSAGE);

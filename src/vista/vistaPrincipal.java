@@ -138,7 +138,6 @@ public class vistaPrincipal extends javax.swing.JFrame {
     }
 
     public void ocultarRow() {
-
         int viewIndex = tableDeudores.getSelectedRow();
         int modelIndex = tableDeudores.convertRowIndexToModel(viewIndex);
 
@@ -369,11 +368,6 @@ public class vistaPrincipal extends javax.swing.JFrame {
         txtBuscar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 txtBuscarMouseClicked(evt);
-            }
-        });
-        txtBuscar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtBuscarActionPerformed(evt);
             }
         });
 
@@ -609,11 +603,6 @@ public class vistaPrincipal extends javax.swing.JFrame {
 
         txtCorreoCliente.setFont(new java.awt.Font("Franklin Gothic Book", 0, 14)); // NOI18N
         txtCorreoCliente.setBorder(null);
-        txtCorreoCliente.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtCorreoClienteActionPerformed(evt);
-            }
-        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -956,36 +945,6 @@ public class vistaPrincipal extends javax.swing.JFrame {
         lblEstadoReserva.setText("ESTADO DE RESERVA:");
 
         estadoReservaBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "ESTADO DE RESERVA", "PAGADA", "PENDIENTE" }));
-
-        lblRHextra.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                lblRHextraActionPerformed(evt);
-            }
-        });
-
-        lblRcama.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                lblRcamaActionPerformed(evt);
-            }
-        });
-
-        lblRbaños.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                lblRbañosActionPerformed(evt);
-            }
-        });
-
-        lblRCamas.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                lblRCamasActionPerformed(evt);
-            }
-        });
-
-        lblRThabitacion.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                lblRThabitacionActionPerformed(evt);
-            }
-        });
 
         javax.swing.GroupLayout panelForumarioLayout = new javax.swing.GroupLayout(panelForumario);
         panelForumario.setLayout(panelForumarioLayout);
@@ -1413,10 +1372,6 @@ public class vistaPrincipal extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnMaximizeMouseClicked
 
-    private void txtCorreoClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCorreoClienteActionPerformed
-
-    }//GEN-LAST:event_txtCorreoClienteActionPerformed
-
     private void btnRegistrarUsuarioMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnRegistrarUsuarioMouseEntered
         btnRegistrarUsuario.setForeground(Color.red);
     }//GEN-LAST:event_btnRegistrarUsuarioMouseEntered
@@ -1460,10 +1415,6 @@ public class vistaPrincipal extends javax.swing.JFrame {
         btnClose.setOpaque(true);
         btnClose.setBorder(javax.swing.BorderFactory.createEtchedBorder());
     }//GEN-LAST:event_btnCloseMouseEntered
-
-    private void txtBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtBuscarActionPerformed
-        
-    }//GEN-LAST:event_txtBuscarActionPerformed
 
     private void btnRegisterMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnRegisterMouseEntered
         btnRegister.setForeground(Color.red);
@@ -1539,26 +1490,6 @@ public class vistaPrincipal extends javax.swing.JFrame {
         }
         first = false;
     }//GEN-LAST:event_btnAsignarHabitacionMouseClicked
-
-    private void lblRHextraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lblRHextraActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_lblRHextraActionPerformed
-
-    private void lblRcamaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lblRcamaActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_lblRcamaActionPerformed
-
-    private void lblRbañosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lblRbañosActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_lblRbañosActionPerformed
-
-    private void lblRCamasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lblRCamasActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_lblRCamasActionPerformed
-
-    private void lblRThabitacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lblRThabitacionActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_lblRThabitacionActionPerformed
 
     private void btnBuscarUsuarioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnBuscarUsuarioMouseClicked
         buscarCliente bc = new buscarCliente();

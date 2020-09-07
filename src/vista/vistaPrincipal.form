@@ -213,7 +213,6 @@
           </Properties>
           <Events>
             <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="txtBuscarMouseClicked"/>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtBuscarActionPerformed"/>
           </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="btnBuscar">
@@ -748,9 +747,6 @@
                       <Border info="null"/>
                     </Property>
                   </Properties>
-                  <Events>
-                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtCorreoClienteActionPerformed"/>
-                  </Events>
                 </Component>
                 <Component class="javax.swing.JSeparator" name="jSeparator1">
                 </Component>
@@ -1535,29 +1531,14 @@
                     <Component class="com.toedter.calendar.JDateChooser" name="dateSalida">
                     </Component>
                     <Component class="javax.swing.JTextField" name="lblRHextra">
-                      <Events>
-                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="lblRHextraActionPerformed"/>
-                      </Events>
                     </Component>
                     <Component class="javax.swing.JTextField" name="lblRcama">
-                      <Events>
-                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="lblRcamaActionPerformed"/>
-                      </Events>
                     </Component>
                     <Component class="javax.swing.JTextField" name="lblRba&#xf1;os">
-                      <Events>
-                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="lblRba&#xf1;osActionPerformed"/>
-                      </Events>
                     </Component>
                     <Component class="javax.swing.JTextField" name="lblRCamas">
-                      <Events>
-                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="lblRCamasActionPerformed"/>
-                      </Events>
                     </Component>
                     <Component class="javax.swing.JTextField" name="lblRThabitacion">
-                      <Events>
-                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="lblRThabitacionActionPerformed"/>
-                      </Events>
                     </Component>
                   </SubComponents>
                 </Container>

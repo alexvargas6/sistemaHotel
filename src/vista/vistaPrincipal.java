@@ -4,7 +4,9 @@ import Buscar.LlenarDatosCliente;
 import Buscar.buscarCliente;
 import Buscar.buscarHabitaciones;
 import com.sun.awt.AWTUtilities;
+import formatearPanel.formatearPanel;
 import foto.foto;
+import htmloConversor.conversorHtml;
 import java.awt.CardLayout;
 import java.awt.Color;
 import java.io.FileInputStream;
@@ -39,23 +41,23 @@ public class vistaPrincipal extends javax.swing.JFrame {
         initComponents();
         AWTUtilities.setWindowOpaque(this, false);
         this.setLocationRelativeTo(null);
-
+        
         this.txtRuta.setEditable(false);
-
+        
         this.setTitle("VISTA PRINCIPAL");
-
+        
         try {
             mt.MTabla(table);
         } catch (SQLException | IOException ex) {
             Logger.getLogger(vistaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
         }
-
+        
         try {
             td.buscarDudores(tableDeudores);
         } catch (SQLException ex) {
             Logger.getLogger(vistaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
         }
-
+        
     }
 
     /*String*/
@@ -70,7 +72,7 @@ public class vistaPrincipal extends javax.swing.JFrame {
     /*booleanos*/
     private boolean fullScreen = false;
     boolean first = true;
-
+    
     FileInputStream foto;
 
     /*clases*/
@@ -79,39 +81,39 @@ public class vistaPrincipal extends javax.swing.JFrame {
     modalRhabitaciones dg = null;
     mostrarTabla mt = new mostrarTabla();
     tablaDeudores td = new tablaDeudores();
-
+    
     public String getNombreDeud() {
         return nombreDeud;
     }
-
+    
     public void setNombreDeud(String nombreDeud) {
         this.nombreDeud = nombreDeud;
     }
-
+    
     public String getDeu() {
         return deu;
     }
-
+    
     public void setDeu(String deu) {
         this.deu = deu;
     }
-
+    
     public String getFsalidaDeudor() {
         return FsalidaDeudor;
     }
-
+    
     public void setFsalidaDeudor(String FsalidaDeudor) {
         this.FsalidaDeudor = FsalidaDeudor;
     }
-
+    
     public boolean isFullScreen() {
         return fullScreen;
     }
-
+    
     public void setFullScreen(boolean fullScreen) {
         this.fullScreen = fullScreen;
     }
-
+    
     private void tomarDatosCliente() {
         GTu.setNombre(this.txtNombreCliente.getText());
         GTu.setNtelefono(this.txtNúmeroCliente.getText());
@@ -121,7 +123,7 @@ public class vistaPrincipal extends javax.swing.JFrame {
         GTu.setBaños(this.jcBaños.getSelectedItem().toString());
         GTu.setHextras(this.jcHe.getSelectedItem().toString());
     }
-
+    
     private void tomarDatosHabitaciones() {
         GTu.setCamas(this.jcCamas1.getSelectedItem().toString());
         GTu.setTcama(this.jcTc1.getSelectedItem().toString());
@@ -129,18 +131,18 @@ public class vistaPrincipal extends javax.swing.JFrame {
         GTu.setHextras(this.jcHe1.getSelectedItem().toString());
         GTu.setHnombre(this.txtTipoHabitacion.getText());
     }
-
+    
     public void seleccionTabla() {
         DefaultTableModel model = (DefaultTableModel) this.tableDeudores.getModel();
         setNombreDeud(String.valueOf(model.getValueAt(tableDeudores.getSelectedRow(), 0)));
         setDeu(String.valueOf(model.getValueAt(tableDeudores.getSelectedRow(), 1)));
         setFsalidaDeudor(String.valueOf(model.getValueAt(tableDeudores.getSelectedRow(), 2)));
     }
-
+    
     public void ocultarRow() {
         int viewIndex = tableDeudores.getSelectedRow();
         int modelIndex = tableDeudores.convertRowIndexToModel(viewIndex);
-
+        
         try {
             DefaultTableModel modelo = (DefaultTableModel) tableDeudores.getModel();
             modelo.removeRow(modelIndex); //quitamos de la tabla la fila seleccionada
@@ -148,17 +150,7 @@ public class vistaPrincipal extends javax.swing.JFrame {
             System.out.println("Error al quitar la fila: " + e);
         }
     }
-
-    public void formatearPanel() {
-        txtNombreCliente.setText(null);
-        txtNúmeroCliente.setText(null);
-        txtCorreoCliente.setText(null);
-        jcCamas.setSelectedItem("Camas");
-        jcTc.setSelectedItem("T.Cama");
-        jcBaños.setSelectedItem("Baños");
-        jcHe.setSelectedItem("H. Extras");
-    }
-
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -878,7 +870,7 @@ public class vistaPrincipal extends javax.swing.JFrame {
                     .addComponent(btnRegistrarNuevaHabitacion)
                     .addComponent(lblRegistrarHabitación, javax.swing.GroupLayout.PREFERRED_SIZE, 547, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(registroHabitación, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(194, Short.MAX_VALUE))
+                .addContainerGap(239, Short.MAX_VALUE))
         );
         j3Layout.setVerticalGroup(
             j3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -889,7 +881,7 @@ public class vistaPrincipal extends javax.swing.JFrame {
                 .addComponent(lblRegistrarHabitación, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
                 .addComponent(registroHabitación, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(53, Short.MAX_VALUE))
+                .addContainerGap(41, Short.MAX_VALUE))
         );
 
         mainPanel.add(j3, "panelThree");
@@ -1146,13 +1138,12 @@ public class vistaPrincipal extends javax.swing.JFrame {
                 .addComponent(panelBaner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addComponent(panelForumario, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addContainerGap())
+                    .addComponent(panelForumario, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addGap(152, 152, 152)
                         .addComponent(btnAltaIngresoCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout j5Layout = new javax.swing.GroupLayout(j5);
@@ -1396,9 +1387,9 @@ public class vistaPrincipal extends javax.swing.JFrame {
         } else {
             JOptionPane.showMessageDialog(rootPane, "Por favor, no dejes campos vacíos", "ERROR DE OPARCIÓN", JOptionPane.ERROR_MESSAGE);
         }
-
         if (registroExitoso) {
-            this.formatearPanel();
+            formatearPanel fp = new formatearPanel();
+            fp.formatearPanelRegistroUsuario(txtNombreCliente, txtNúmeroCliente, txtCorreoCliente, jcCamas, jcTc, jcBaños, jcHe);
         }
     }//GEN-LAST:event_btnRegistrarUsuarioMouseClicked
 
@@ -1430,11 +1421,18 @@ public class vistaPrincipal extends javax.swing.JFrame {
         tomarDatosHabitaciones();
         if (GTu.getHnombre().length() > 0 && !GTu.getCamas().equals("Camas") && !GTu.getTcama().equals("T.Cama") && !GTu.getBaños().equals("Baños")
                 && !GTu.getHextras().equals("H. Extras") && txtRuta.getText().length() > 0 && txtDescripción.getText().length() > 0) {
+            
+            conversorHtml ch = new conversorHtml();
+            String descripciónHtml = ch.saltosDeLinea(txtDescripción.getText());
+            
             try {
                 rth.registrar(GTu.getHnombre(), GTu.getBaños(), GTu.getCamas(),
-                        GTu.getTcama(), GTu.getHextras(), txtDescripción.getText(), foto);
+                        GTu.getTcama(), GTu.getHextras(), descripciónHtml, foto);
             } catch (SQLException ex) {
                 Logger.getLogger(vistaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+            } finally {
+                formatearPanel fp = new formatearPanel();
+                fp.formatearPanelRegistroHabitación(jcCamas1, jcBaños1, jcHe1, jcTc1, foto, txtRuta, txtTipoHabitacion, txtDescripción);
             }
         } else {
             JOptionPane.showMessageDialog(rootPane, "Por favor, no dejes campos vacíos", "ERROR DE OPERACIÓN", JOptionPane.ERROR_MESSAGE);
@@ -1463,7 +1461,7 @@ public class vistaPrincipal extends javax.swing.JFrame {
     private void btnAsignarHabitacionMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAsignarHabitacionMouseClicked
         CardLayout card = (CardLayout) mainPanel.getLayout();
         card.show(mainPanel, "panelFive");
-
+        
         final String sql = "SELECT * FROM habitacionesdisponibles WHERE Disponibilidad = 'DISPONIBLE'";
         final String filtro = "idhabitacionesdisponibles";
 
@@ -1476,12 +1474,12 @@ public class vistaPrincipal extends javax.swing.JFrame {
         this.txtRid.setEditable(false);
         this.telClienteFiltro.setEditable(false);
         this.textDescripcion.setEditable(false);
-
+        
         buscarHabitaciones bh = new buscarHabitaciones();
-
-        if(!first){
-        HabitacionesBox.removeAllItems();
-        HabitacionesBox.addItem("SELECCIONAR HABITACIÓN");
+        
+        if (!first) {
+            HabitacionesBox.removeAllItems();
+            HabitacionesBox.addItem("SELECCIONAR HABITACIÓN");
         }
         try {
             bh.llenarComboBox(HabitacionesBox, sql, filtro);
@@ -1529,7 +1527,7 @@ public class vistaPrincipal extends javax.swing.JFrame {
 
     private void HabitacionesBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_HabitacionesBoxActionPerformed
         LlenarDatosCliente ldc = new LlenarDatosCliente();
-
+        
         String filtroHabitacion = null;
         if (!this.HabitacionesBox.getSelectedItem().toString().equals("SELECCIONAR HABITACIÓN")) {
             try {
@@ -1537,7 +1535,7 @@ public class vistaPrincipal extends javax.swing.JFrame {
             } catch (SQLException ex) {
                 Logger.getLogger(vistaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
             }
-
+            
             try {
                 ldc.llenarDatos(filtroHabitacion, lblRThabitacion, lblRCamas, lblRbaños, lblRcama, lblRHextra, textDescripcion);
             } catch (SQLException ex) {
@@ -1558,7 +1556,7 @@ public class vistaPrincipal extends javax.swing.JFrame {
                 && !HabitacionesBox.getSelectedItem().equals("SELECCIONAR HABITACIÓN") && lblRThabitacion.getText().length() > 0
                 && dateReserva.getDate() != null && dateIngreso.getDate() != null && dateSalida.getDate() != null && txtCosto.getText().length() > 0
                 && !estadoReservaBox.getSelectedItem().equals("ESTADO DE RESERVA")) {
-
+            
             DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
             registrarIngresoDeCliente ridc = new registrarIngresoDeCliente();
             try {
@@ -1570,11 +1568,14 @@ public class vistaPrincipal extends javax.swing.JFrame {
             } catch (SQLException ex) {
                 Logger.getLogger(vistaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
             }
-
+            
             try {
                 ridc.updateHabitacion(HabitacionesBox.getSelectedItem().toString());
             } catch (SQLException ex) {
                 Logger.getLogger(vistaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+            } finally {
+                formatearPanel fp = new formatearPanel();
+                fp.formatearPanelAltaUsuarios(HabitacionesBox, txtRid, nombreClienteFiltro, telClienteFiltro, lblRThabitacion, lblRCamas, lblRbaños, lblRcama, lblRHextra, textDescripcion, estadoReservaBox, txtCosto, dateReserva, dateIngreso, dateSalida);
             }
         } else {
             JOptionPane.showMessageDialog(null, "NO DEJES CAMPOS VACÍOS", "ERROR DE OPERACIÓN", JOptionPane.INFORMATION_MESSAGE);
@@ -1592,30 +1593,30 @@ public class vistaPrincipal extends javax.swing.JFrame {
     private void tableDeudoresMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableDeudoresMouseClicked
         seleccionTabla();
         boolean operacionExitosa = false;
-
+        
         int confirmar = JOptionPane.showConfirmDialog(null, "¿El usuario ha liquidado su deuda?", "PAGAR DEUDA", JOptionPane.INFORMATION_MESSAGE);
-
+        
         if (confirmar == JOptionPane.YES_OPTION) {
             UpdatePago up = new UpdatePago();
-
+            
             try {
                 operacionExitosa = up.updatePago(getNombreDeud(), getFsalidaDeudor());
             } catch (SQLException ex) {
                 Logger.getLogger(vistaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
             }
-
+            
             if (operacionExitosa) {
                 ocultarRow();
             }
-
+            
         }
 
     }//GEN-LAST:event_tableDeudoresMouseClicked
 
     private void txtBuscarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtBuscarMouseClicked
-      if(txtBuscar.getText().equals("BUSCAR")){
-      txtBuscar.setText(null);
-      }
+        if (txtBuscar.getText().equals("BUSCAR")) {
+            txtBuscar.setText(null);
+        }
     }//GEN-LAST:event_txtBuscarMouseClicked
 
     /**
